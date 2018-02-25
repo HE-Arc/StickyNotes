@@ -15,4 +15,8 @@ media
 
 
 # End of https://www.gitignore.io/api/django
-stickynotes
+Lib
+Scripts
+Include
+/pyvenv.cfg
+/pip-selfcheck.json
