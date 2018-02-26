@@ -3,8 +3,9 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 
 # Installation guide
 ## Windows
+- Open new console (cmd.exe)
 - Clone project : `git clone https://github.com/HE-Arc/StickyNotes.git`
-- Open console in folder StickyNotes
+- Go tot the folder StickyNotes : `cd StickyNotes`
 - Create new virtualvenv : `python -m venv .`
 - Active virtualvenv : `Scripts\activate.bat`
 - Install python package : `pip install -r requirements.txt`
