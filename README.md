@@ -1,10 +1,6 @@
 # StickyNotes
 Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 
-# Prerequisites
-- python
-- pip
-
 # Installation guide
 ## Windows
 - Open new console (cmd.exe)
