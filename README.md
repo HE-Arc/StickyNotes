@@ -26,9 +26,12 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Migrate database : `python manage.py migrate`
 - Run server : `python manage.py runserver`
 
-### Prerequisites
+### Requirements
 - libmysqlclient-dev
 - ....
 
 # Configuration
-...
+- Copy or rename file stickynotes/stickynotes/.env.default to .env
+- Open file .env with text editor
+- Configure variable with your data's
+- ...
