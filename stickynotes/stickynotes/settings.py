@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'stickynotes.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'stickynotes_db',
-        'USER': 'root',
+        'NAME': '<database_name>',
+        'USER': '<user>',
         'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'HOST': '<host_address>',
+        'PORT': '<port>', #default 3306
     }
 }
 
