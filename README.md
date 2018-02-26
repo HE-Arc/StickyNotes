@@ -15,10 +15,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Run server : `python manage.py runserver`
 
 ## Linux
-### Prerequisites
-- libmysqlclient-dev
--....
-
 - Open new console
 - Clone project : `git clone https://github.com/HE-Arc/StickyNotes.git`
 - Go to the folder StickyNotes : `cd StickyNotes`
@@ -29,3 +25,7 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Go to ./StickyNotes/stickynotes : `cd stickynotes`
 - Migrate database : `python manage.py migrate`
 - Run server : `python manage.py runserver`
+
+### Prerequisites
+- libmysqlclient-dev
+-....
