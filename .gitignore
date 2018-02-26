@@ -20,3 +20,4 @@ Scripts
 Include
 /pyvenv.cfg
 /pip-selfcheck.json
+/stickynotes/stickynotes/.env
