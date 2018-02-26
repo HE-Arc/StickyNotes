@@ -33,5 +33,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 
 ## Step 3 - Migration
 - Go to **.\StickyNotes\stickynotes**
-- Migrate database : `python manage.py migrate`
+- Make migration : `python manage.py makemigrations`
+- Migrate : `python manage.py migrate`
 - Run server : `python manage.py runserver`
