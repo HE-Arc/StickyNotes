@@ -33,5 +33,5 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 # Configuration
 - Copy or rename file **stickynotes/stickynotes/.env.default** to **.env**
 - Open file **.env** with text editor
-- Configure variable with your data's
+- Configure variable with your data
 - ...
