@@ -2,7 +2,8 @@
 Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 
 # Installation guide
-## Windows
+## Step 1 - Initialisation
+### Windows
 - Open new console (cmd.exe)
 - Clone project : `git clone https://github.com/HE-Arc/StickyNotes.git`
 - Go to the folder StickyNotes : `cd StickyNotes`
@@ -11,7 +12,7 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Install python package : `pip install -r requirements.txt`
 - ... (soon)
 
-## Linux
+### Linux
 - Open new console
 - Clone project : `git clone https://github.com/HE-Arc/StickyNotes.git`
 - Go to the folder StickyNotes : `cd StickyNotes`
@@ -20,17 +21,17 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Install python package : `pip install -r requirements.txt`
 - ... (soon)
 
-### Requirements
+#### Requirements
 - libmysqlclient-dev
 - ....
 
-# Configuration
+## Step 2 - Configuration
 - Copy or rename file **stickynotes/stickynotes/.env.default** to **.env**
 - Open file **.env** with text editor
 - Configure variable with your data
 - ...
 
-# Migration
+## Step 3 - Migration
 - Go to **.\StickyNotes\stickynotes**
 - Migrate database : `python manage.py migrate`
 - Run server : `python manage.py runserver`
