@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
 class Group(models.Model):
@@ -14,7 +14,7 @@ class StickyNote(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user_created = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=False,
         blank=False,
