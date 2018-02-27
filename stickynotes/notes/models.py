@@ -10,10 +10,10 @@ class StickyNote(models.Model):
     """Class represents a stickynote"""
     content = models.CharField(max_length=255)
     content_type = models.CharField(max_length=20)
-    date_created = models.DateTimeField(auto_now=False)
-    last_updated = models.DateTimeField(auto_now_add=True)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user_created_id = models.ForeignKey(
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user_created = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         null=False,

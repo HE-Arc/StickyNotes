@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="http://codepen.io/edbond88/pen/CcgvA.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h2>StickyNotes</h2>
+    <ul>
+      {% for stickynote in stickynotes.all %}
+        <aside class="note-wrap note-white">
+          {{ stickynote.content }}
+          Date created : {{ stickynote.date_created }}
+          Created by : {{ stickynote.user_created }}
+        </aside>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
