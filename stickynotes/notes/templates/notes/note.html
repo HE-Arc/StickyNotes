@@ -5,14 +5,12 @@
   </head>
   <body>
     <h2>StickyNotes</h2>
-    <ul>
-      {% for stickynote in stickynotes.all %}
-        <aside class="note-wrap note-white">
-          {{ stickynote.content }}
-          Date created : {{ stickynote.date_created }}
-          Created by : {{ stickynote.user_created }}
-        </aside>
-      {% endfor %}
-    </ul>
+    {% for stickynote in stickynotes.all %}
+      <aside class="note-wrap note-white">
+        {{ stickynote.content }}
+        Date created : {{ stickynote.date_created }}
+        Created by : {{ stickynote.user_created }}
+      </aside>
+    {% endfor %}
   </body>
 </html>
