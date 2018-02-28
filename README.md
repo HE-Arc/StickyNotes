@@ -1,6 +1,9 @@
 # StickyNotes
 Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 
+# Requirements
+- Python 3.*
+
 # Installation guide
 ## Windows
 - Open new console (cmd.exe)
@@ -9,8 +12,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Create new virtualvenv : `python -m venv .`
 - Active virtualvenv : `Scripts\activate.bat`
 - Install python package : `pip install -r requirements.txt`
-- ... (soon)
-- Run server : `python manage.py runserver`
 
 ## Linux
 - Open new console
@@ -19,7 +20,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Create new virtualvenv : `python -m venv .`
 - Active virtualvenv : `source bin/activate`
 - Install python package : `pip install -r requirements.txt`
-- ... (soon)
 
 ### Requirements
 - libmysqlclient-dev
