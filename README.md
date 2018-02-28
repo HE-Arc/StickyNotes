@@ -10,8 +10,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Active virtualvenv : `Scripts\activate.bat`
 - Install python package : `pip install -r requirements.txt`
 - ... (soon)
-- Go to **.\StickyNotes\stickynotes** : `cd stickynotes`
-- Migrate database : `python manage.py migrate`
 - Run server : `python manage.py runserver`
 
 ## Linux
@@ -22,9 +20,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Active virtualvenv : `source bin/activate`
 - Install python package : `pip install -r requirements.txt`
 - ... (soon)
-- Go to **./StickyNotes/stickynotes** : `cd stickynotes`
-- Migrate database : `python manage.py migrate`
-- Run server : `python manage.py runserver`
 
 ### Requirements
 - libmysqlclient-dev
@@ -34,4 +29,9 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Copy or rename file **stickynotes/stickynotes/.env.default** to **.env**
 - Open file **.env** with text editor
 - Configure variable with your data
+- Go to **./StickyNotes/stickynotes** : `cd stickynotes`
+- Migrate database : `python manage.py makemigrations`
+- Migrate database : `python manage.py migrate`
+- Run server : `python manage.py runserver`
 - ...
+
