@@ -18,6 +18,7 @@ class Group(models.Model):
 
 class StickyNote(models.Model):
     """Class represents a stickynote"""
+    title = models.CharField(max_length=50)
     content = models.CharField(max_length=255)
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
