@@ -32,6 +32,7 @@ Post-it
               Created by : {{ stickynote.user_created }}
             </p>
           </a>
+          <a href="{% url 'update_stickynotes' stickynote.id %}">update</a>
           <a href="{% url 'delete_stickynotes' stickynote.id %}">remove</a>
         </li>
       {% empty %}
