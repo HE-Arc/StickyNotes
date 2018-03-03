@@ -16,7 +16,7 @@ max-width:100%;
   padding:3em;
 }
 
-.snote ul li a{
+.snote ul li .postit_link {
   text-decoration:none;
   color:#000;
   background:#ffc;
@@ -35,7 +35,7 @@ max-width:100%;
   -webkit-transition:-webkit-transform .15s linear;
 }
 
-.snote ul li:nth-child(even) a{
+.snote ul li:nth-child(even) .postit_link {
   -o-transform:rotate(4deg);
   -webkit-transform:rotate(4deg);
   -moz-transform:rotate(4deg);
@@ -44,7 +44,7 @@ max-width:100%;
   background:#cfc;
 }
 
-.snote ul li:nth-child(3n) a{
+.snote ul li:nth-child(3n) .postit_link {
   -o-transform:rotate(-3deg);
   -webkit-transform:rotate(-3deg);
   -moz-transform:rotate(-3deg);
@@ -53,7 +53,7 @@ max-width:100%;
   background:#ccf;
 }
 
-.snote ul li:nth-child(5n) a{
+.snote ul li:nth-child(5n) .postit_link {
   -o-transform:rotate(5deg);
   -webkit-transform:rotate(5deg);
   -moz-transform:rotate(5deg);
@@ -62,7 +62,7 @@ max-width:100%;
   background:#fcf;
 }
 
-.snote ul li a:hover,ul li a:focus{
+.snote ul li a:hover,ul li .postit_link:focus{
   -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
   -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
   box-shadow:10px 10px 7px rgba(0,0,0,.7);
@@ -73,12 +73,12 @@ max-width:100%;
   z-index:5;
 }
 
-.snote ul li{
+.snote ul li {
   margin:1em;
-  float:left;
+  float:left
 }
 
-.snote ul li h2{
+.snote ul li h2 {
   font-size:160%;
   font-weight:bold;
   padding-bottom:0px;
@@ -87,7 +87,7 @@ max-width:100%;
   color:#000;
 }
 
-.snote ul li p{
+.snote ul li p {
   font-family:'Shadows Into Light Two',arial,sans-serif;
   font-size:140%;
   color:#000;
