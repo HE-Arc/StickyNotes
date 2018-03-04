@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block title %}
 Post-it
@@ -9,11 +10,10 @@ Post-it
 
   <h2>StickyNotes</h2>
 
+  <p><a data-toggle="modal" data-target="#modal" href="{% url 'create_stickynotes' %}">Add new stickynote</a></p>
+  <div class="modal fade" id="modal"></div>
+
   {% if user.is_authenticated %}
-    <form method='POST' action=''>{% csrf_token %}
-        {{ form.as_p }}
-        <input type='submit' value='Add note'>
-    </form>
     <a href="/admin/logout">Logout</a>
   {% else %}
     <a href="/admin">Login</a>
@@ -24,7 +24,7 @@ Post-it
     <ul>
       {% for stickynote in stickynotes.all %}
         <li>
-          <a href="#">
+          <a href="#" class="postit_link">
             <h2>{{ stickynote.title }}</h2><hr/>
             <p>
               <!-- Normal text -->
@@ -39,9 +39,27 @@ Post-it
             <p> Date created : {{ stickynote.date_created }} </p>
             <p> Created by : {{ stickynote.user_created }} </p>
           </a>
+          <a href="{% url 'update_stickynotes' stickynote.id %}">update</a><br/>
+          <a href="{% url 'delete_stickynotes' stickynote.id %}">remove</a>
         </li>
+      {% empty %}
+        <li>No stickynote</li>
       {% endfor %}
     </ul>
   </div>
 
+{% endblock %}
+
+{% block javascript %}
+  <script>
+  $('#modal').on('show.bs.modal', function (event) {
+      var modal = $(this)
+      $.ajax({
+          url: "{% url 'create_stickynotes' %}",
+          context: document.body
+      }).done(function(response) {
+          modal.html(response);
+      });
+  });
+  </script>
 {% endblock %}
