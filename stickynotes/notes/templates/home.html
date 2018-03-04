@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}
+Post-it - home
+{% endblock %}
+
+{% block content %}
+
+  <h1>Home</h1>
+  {% if user.is_authenticated %}
+    Hi {{ user.username }}!
+  {% else %}
+
+  {% endif %}
+
+{% endblock %}
