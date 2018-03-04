@@ -27,10 +27,17 @@ Post-it
           <a href="#">
             <h2>{{ stickynote.title }}</h2><hr/>
             <p>
-              Content : {{ stickynote.content }}
-              Date created : {{ stickynote.date_created }}
-              Created by : {{ stickynote.user_created }}
+              <!-- Normal text -->
+              <!---Content : {{ stickynote.content }}-->
+
+              <!-- Test with video url (youtube, vimeo, soundcloud) -->
+              {% load embed_video_tags %}
+                {% video stickynote.content as my_video %}
+                  {% video my_video "tiny" %}
+              {% endvideo %}
             </p>
+            <p> Date created : {{ stickynote.date_created }} </p>
+            <p> Created by : {{ stickynote.user_created }} </p>
           </a>
         </li>
       {% endfor %}

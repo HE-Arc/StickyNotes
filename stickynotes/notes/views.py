@@ -3,9 +3,11 @@ from notes.models import StickyNote
 from notes.forms import StickyNoteForm
 
 # Create your views here.
-def home(request):
+def NotesPage(request):
     stickynotes = StickyNote.objects.all()
+
     form = StickyNoteForm(request.POST or None)
+
     if form.is_valid():
         save_it = form.save(commit=False)
         save_it.user_created = request.user

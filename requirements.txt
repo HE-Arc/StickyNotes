@@ -7,3 +7,6 @@ mysqlclient==1.3.12
 pycparser==2.18
 pytz==2018.3
 six==1.11.0
+
+django-enumfields==0.9.0
+django-embed-video==1.1.0
