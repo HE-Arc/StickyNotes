@@ -10,14 +10,24 @@ Post-it
 
   <h2>StickyNotes</h2>
 
-  <p><a data-toggle="modal" data-target="#modal" href="{% url 'create_stickynotes' %}">Add new stickynote</a></p>
-  <div class="modal fade" id="modal"></div>
 
-  {% if user.is_authenticated %}
-    <a href="/admin/logout">Logout</a>
-  {% else %}
-    <a href="/admin">Login</a>
-  {% endif %}
+
+  <div class="note_type">
+    <ul>
+      {% for type_stickynote in type_stickynotes %}
+        <li>
+          <a href="{% url 'create_stickynotes' type_stickynote %}">Add StickyNote {{ type_stickynote }}</a>
+        </li>
+      {% empty %}
+        No type found!
+      {% endfor %}
+    </ul>
+  </div>
+
+  <a href="/admin/logout">Logout</a>
+
+  <!-- modal window for add stickynote -->
+  <div class="modal fade" id="modal"></div>
 
   <!-- Display notes -->
   <div class="snote">
@@ -27,19 +37,27 @@ Post-it
           <a href="#" class="postit_link">
             <h2>{{ stickynote.title }}</h2><hr/>
             <p>
+              {% if stickynote.imagestickynote %}
+              <img src="{{ stickynote.imagestickynote.image_content }}">
+              {% elif stickynote.videostickynote %}
+                {% load embed_video_tags %}
+                  {% video stickynote.videostickynote.video_content as my_video %}
+                    {% video my_video "tiny" %}
+                {% endvideo %}
+              {% else %}
+              {{ stickynote.text_content }}
+              {% endif %}
               <!-- Normal text -->
               <!---Content : {{ stickynote.content }}-->
 
               <!-- Test with video url (youtube, vimeo, soundcloud) -->
-              {% load embed_video_tags %}
-                {% video stickynote.content as my_video %}
-                  {% video my_video "tiny" %}
-              {% endvideo %}
             </p>
             <p> Date created : {{ stickynote.date_created }} </p>
             <p> Created by : {{ stickynote.user_created }} </p>
           </a>
+        {% if user.id == stickynote.user_created.id %}
           <a href="{% url 'update_stickynotes' stickynote.id %}">update</a><br/>
+        {% endif %}
           <a href="{% url 'delete_stickynotes' stickynote.id %}">remove</a>
         </li>
       {% empty %}
@@ -52,14 +70,5 @@ Post-it
 
 {% block javascript %}
   <script>
-  $('#modal').on('show.bs.modal', function (event) {
-      var modal = $(this)
-      $.ajax({
-          url: "{% url 'create_stickynotes' %}",
-          context: document.body
-      }).done(function(response) {
-          modal.html(response);
-      });
-  });
   </script>
 {% endblock %}
