@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2>Registration form</h2>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create an account</button>
+  </form>
+
+</div>
+{% endblock %}

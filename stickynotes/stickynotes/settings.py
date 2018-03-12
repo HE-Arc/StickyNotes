@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'widget_tweaks',
+
+    'accounts',
     'notes',
     'embed_video',
-    'enumfields',
 ]
 
 EMBED_VIDEO_BACKENDS = (

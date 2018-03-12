@@ -2,19 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from notes.models import StickyNote, ImageStickyNote, VideoStickyNote
 from notes.forms import StickyNoteForm, ImageStickyNoteForm, VideoStickyNoteForm
 
-# https://wsvincent.com/django-user-authentication-tutorial-signup/
-from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
-from django.views import generic
-
 # Create your views here.
-
-
-class Register(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'registration/register.html'
-
 
 def home(request):
     return render(request, 'home.html')
