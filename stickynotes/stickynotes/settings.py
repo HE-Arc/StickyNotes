@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'embed_video',
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 EMBED_VIDEO_BACKENDS = (
     'embed_video.backends.YoutubeBackend',
     'embed_video.backends.VimeoBackend',
@@ -128,8 +130,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
