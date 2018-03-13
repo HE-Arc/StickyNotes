@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}
+Chalkboards
+{% endblock %}
+
+{% block breadcrumb %}
+  <!--<li class="breadcrumb-item active">Home</li>-->
+
+{% endblock %}
+
+{% block content %}
+
+{% for chlk in chlks %}
+<p>Chalkboard name : {{ chlk.name }}</p>
+<p>Description : {{ chlk.description }}</p>
+
+{% endfor %}
+
+{% endblock %}

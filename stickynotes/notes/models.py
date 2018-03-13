@@ -29,6 +29,20 @@ class Chalkboard(models.Model):
     def __str__(self):
         return self.name
 
+class FavoriteChalkboards(models.Model):
+    """ Contains a users's favorite chalkboards """
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(auto_now=True, editable=False)
+
+    favorites = models.ForeignKey(Chalkboard, on_delete=models.CASCADE)
+
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+    )
+
 class StickyNote(models.Model):
     """ Contains the data created by the users """
     title = models.CharField(max_length=50)

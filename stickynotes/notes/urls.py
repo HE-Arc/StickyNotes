@@ -8,10 +8,13 @@ from accounts import views as accounts_views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^notes', views.notes, name='view_notes'),
+    url(r'^chalkboards', views.chalkboards, name='chalkboards'),
     # ACCOUNTS
+    # url(r'^(?P<username>[\w.@+-]+)/$', views.user_profile, name='user_profile'),
     url(r'^register/$', accounts_views.register, name='register'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
+    # passwords
     url(r'^reset/$',
         auth_views.PasswordResetView.as_view(
             template_name='password_reset.html',

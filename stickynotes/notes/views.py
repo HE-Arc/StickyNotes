@@ -1,12 +1,27 @@
+"""
+    links:
+        - https://stackoverflow.com/questions/12615154/how-to-get-the-currently-logged-in-users-user-id-in-django
+        - https://stackoverflow.com/questions/14026750/django-model-filtering-by-user-always
+"""
 from django.shortcuts import render, redirect, get_object_or_404
-from notes.models import StickyNote, ImageStickyNote, VideoStickyNote
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+from notes.models import StickyNote, ImageStickyNote, VideoStickyNote, Chalkboard
 from notes.forms import StickyNoteForm, ImageStickyNoteForm, VideoStickyNoteForm
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    chlks = Chalkboard.objects.filter()
+    return render(request, 'home.html', {'chlks': chlks})
 
+@login_required
+def chalkboards(request):
+    chlks = Chalkboard.objects.all()
+    return render(request, 'chalkboards/chalkboard.html', {'chlks' : chlks})
+
+@login_required
 def notes(request):
     stickynotes = StickyNote.objects.all()
     type_stickynotes = [StickyNote, ImageStickyNote, VideoStickyNote]
