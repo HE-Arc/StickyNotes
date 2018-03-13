@@ -6,22 +6,27 @@
 Home
 {% endblock %}
 
+<!-- BREADCRUMB -->
 {% block breadcrumb %}
   <li class="breadcrumb-item active">Home</li>
 {% endblock %}
 
 {% block content %}
+  <!-- AUTHENTIFIED -->
+  <div>
+    {% if user.is_authenticated %}
+      <h2>Hi {{ user.username }}!</h2>
+    <!-- TODO: list chlks created by me -->
 
-{% if user.is_authenticated %}
-  <h2>Hi {{ user.username }}!</h2>
+    <!-- TODO: list chlks favorites -->
 
-{% for chlk in chlks %}
-<p>{{ chlk }}</p>
-{% endfor %}
-  <!--<a href="{% url 'view_notes' %}">go to notes</a> | <a href="{% url 'logout' %}">logout</a>-->
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
+    <!-- TODO: NOT AUTHENTIFIED -->
+    {% else %}
+    <h1>Welcome to Sticky Notes !</h1>
 
-{% endif %}
+    <p>This application ... </p>
+
+    <p>Feel free to try it ! </p>
+  </div>
+  {% endif %}
 {% endblock %}

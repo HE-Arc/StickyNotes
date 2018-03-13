@@ -7,16 +7,18 @@ Chalkboards
 {% endblock %}
 
 {% block breadcrumb %}
-  <!--<li class="breadcrumb-item active">Home</li>-->
-
+  <li class="breadcrumb-item active">Chalkboards</li>
 {% endblock %}
 
 {% block content %}
 
-{% for chlk in chlks %}
-<p>Chalkboard name : {{ chlk.name }}</p>
-<p>Description : {{ chlk.description }}</p>
-
-{% endfor %}
+  {% if chlks %}
+  {% for chlk in chlks %}
+  <p>Chalkboard name : {{ chlk.name }}</p>
+  <p>Description : {{ chlk.description }}</p>
+  {% endfor %}
+  {% else %}
+  <a href="{% url 'chalkboards' %}">Create a new chalkboard !</a>
+  {% endif %}
 
 {% endblock %}

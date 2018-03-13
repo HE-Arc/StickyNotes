@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^notes', views.notes, name='view_notes'),
     url(r'^chalkboards', views.chalkboards, name='chalkboards'),
+    # TODO: notes has to be replaced by something like this ..
+    # url(r'^chalkboards/(?P<pk>\d+)/$', views.notes, name='notes'),
     # ACCOUNTS
     # url(r'^(?P<username>[\w.@+-]+)/$', views.user_profile, name='user_profile'),
     url(r'^register/$', accounts_views.register, name='register'),

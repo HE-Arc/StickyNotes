@@ -1,3 +1,6 @@
+body {
+  background-image: url(../img/gold_scale.png);
+}
 html {
   position: relative;
   min-height: 100%;

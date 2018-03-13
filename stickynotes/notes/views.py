@@ -13,8 +13,7 @@ from notes.forms import StickyNoteForm, ImageStickyNoteForm, VideoStickyNoteForm
 # Create your views here.
 
 def home(request):
-    chlks = Chalkboard.objects.filter()
-    return render(request, 'home.html', {'chlks': chlks})
+    return render(request, 'home.html')
 
 @login_required
 def chalkboards(request):
@@ -22,8 +21,8 @@ def chalkboards(request):
     return render(request, 'chalkboards/chalkboard.html', {'chlks' : chlks})
 
 @login_required
-def notes(request):
-    stickynotes = StickyNote.objects.all()
+def notes(request): # TODO: has to be changed somehow to allow passing from CHLK to NOTES
+    stickynotes = StickyNote.objects.filter()
     type_stickynotes = [StickyNote, ImageStickyNote, VideoStickyNote]
     return render(request, 'notes/note.html', {'stickynotes' : stickynotes, 'type_stickynotes' : type_stickynotes})
 

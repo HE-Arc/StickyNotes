@@ -11,6 +11,7 @@ from enumfields import EnumField, Enum
 from embed_video.fields import EmbedVideoField
 # Create your models here.
 
+
 class Chalkboard(models.Model):
     """ Chalkboard containing different types of notes """
     name = models.CharField(max_length=50)
@@ -29,6 +30,8 @@ class Chalkboard(models.Model):
     def __str__(self):
         return self.name
 
+
+# TODO
 class FavoriteChalkboards(models.Model):
     """ Contains a users's favorite chalkboards """
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -42,6 +45,7 @@ class FavoriteChalkboards(models.Model):
         null=False,
         blank=False,
     )
+
 
 class StickyNote(models.Model):
     """ Contains the data created by the users """
@@ -63,12 +67,14 @@ class StickyNote(models.Model):
     def __str__(self):
         return "text"
 
+
 class ImageStickyNote(StickyNote):
     """ Contains the data created by the users """
     image_content = models.URLField() # not work yet (change)
 
     def __str__(self):
         return "image"
+
 
 class VideoStickyNote(StickyNote):
     """ Contains the data created by the users """
