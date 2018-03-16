@@ -12,17 +12,7 @@ Post-it
 
 {% block content %}
 
-  <div class="note_type">
-    <ul style="display: table;">
-      {% for type_stickynote in type_stickynotes %}
-        <li style="vertical-align: middle; display: table-cell; padding: 1em;">
-          <a href="{% url 'create_stickynotes' type_stickynote %}" title="Create new stickynotes {{ type_stickynote }}"><img src="{% get_static_prefix %}images/stickynotes/add_{{ type_stickynote }}.png" alt="Add StickyNote {{ type_stickynote }}" /></a>
-        </li>
-      {% empty %}
-        No type found!
-      {% endfor %}
-    </ul>
-  </div>
+  {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=1 %}
 
   <!-- modal window for add stickynote -->
   <div class="modal fade" id="modal"></div>

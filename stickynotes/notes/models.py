@@ -9,14 +9,29 @@ from django.conf import settings
 
 from enumfields import EnumField, Enum
 from embed_video.fields import EmbedVideoField
-# Create your models here.
 
+# Create your models here.
+class PermissionChalkboard(models.Model):
+    """ Chalkboard permission users  """
+    description = models.CharField(max_length=255)
+    permission = models.CharField(max_length=50)
+
+class GroupPermissionChalkboard(models.Model):
+    """ Chalkboard group define which user has rights  """
+    user_id = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+    )
+    permission = models.ForeignKey(PermissionChalkboard, on_delete=models.CASCADE)
 
 class Chalkboard(models.Model):
     """ Chalkboard containing different types of notes """
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
-
+    is_private = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
@@ -26,10 +41,10 @@ class Chalkboard(models.Model):
         null=False,
         blank=False,
     )
+    group_permission = models.ForeignKey(GroupPermissionChalkboard, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
-
 
 # TODO
 class FavoriteChalkboards(models.Model):

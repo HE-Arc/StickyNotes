@@ -12,9 +12,10 @@ Chalkboards
 
 {% block content %}
 
-<p>Name : {{ chlk.name }}</p>
-<p>Description : {{ chlk.description }}</p>
+  <p>Name : {{ chlk.name }}</p>
+  <p>Description : {{ chlk.description }}</p>
 
+ {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chlk.id %}
  {% include 'notes/single_note.html' with stickynotes=stickynotes %}
 
 {% endblock %}
