@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}
+Chalkboards
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Chalkboards</li>
+{% endblock %}
+
+{% block content %}
+
+  <a href="{% url 'create_chalkboard' %}">Create</a>
+
+  {% for chlk in chlks %}
+    <p>Chalkboard name : <a href="{% url 'display_chalkboards' chlk.id %}" >{{ chlk.name }}</a></p>
+    <p>Description : {{ chlk.description }}</p>
+  {% empty %}
+    <p>You have not chalkboard !</p>
+  {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,33 @@
+<!-- Display notes -->
+<div class="snote">
+  <ul>
+    {% for stickynote in stickynotes.all %}
+      <li>
+        <div class="postit_link">
+          <h2>{{ stickynote.title }}</h2><hr/>
+          <p>
+            {% if stickynote.imagestickynote %}
+              <img class="image_stickynotes" src="{{ stickynote.imagestickynote.image_content }}">
+            {% elif stickynote.videostickynote %}
+              {% load embed_video_tags %}
+                {% video stickynote.videostickynote.video_content as my_video %}
+                  {% video my_video '95%x95%' %}
+              {% endvideo %}
+            {% else %}
+              {{ stickynote.text_content }}
+            {% endif %}
+          </p>
+          <p> Date created : {{ stickynote.date_created }} </p>
+          <p> Created by : {{ stickynote.user_created }} </p>
+        </div>
+      {% if user.id == stickynote.user_created.id %}
+        <button class="update_button">update</button>
+      <!--  <a href="{% url 'update_stickynotes' stickynote.id %}">update</a><br/>-->
+      {% endif %}
+        <a href="{% url 'delete_stickynotes' stickynote.id %}">remove</a>
+      </li>
+    {% empty %}
+      <li>No stickynote</li>
+    {% endfor %}
+  </ul>
+</div>
