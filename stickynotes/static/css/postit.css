@@ -1,28 +1,29 @@
-.snote{
-max-width:150%;
-}
-
 .snote h2, p{
   font-size:100%;
   font-weight:normal;
 }
 
-.snote ul,li{
+.snote ul, li {
   list-style:none;
+  margin:1em;
 }
 
 .snote ul{
   overflow:hidden;
-  padding:3em;
 }
 
-.snote ul li .postit_link {
+.snote ul li {
+  float: left;
+  position: relative;
+}
+
+.snote ul li div {
   text-decoration:none;
   color:#000;
   background:#ffc;
   display:block;
-  height:30em;
-  width:30em;
+  height:25em;
+  width:25em;
   padding:1em;
   -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
   -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
@@ -32,25 +33,25 @@ max-width:150%;
   -webkit-transition:-webkit-transform .15s linear;
 }
 
-.snote ul li:nth-child(even) .postit_link {
-   position:relative;
+.snote ul li:nth-child(even) div {
+  position:relative;
   top:5px;
   background:#cfc;
 }
 
-.snote ul li:nth-child(3n) .postit_link {
+.snote ul li:nth-child(3n) div {
   position:relative;
   top:-5px;
   background:#ccf;
 }
 
-.snote ul li:nth-child(5n) .postit_link {
+.snote ul li:nth-child(5n) div {
   position:relative;
   top:-10px;
   background:#fcf;
 }
 
-.snote ul li a:hover,ul li .postit_link:focus{
+.snote ul li div:hover,ul li div:focus{
   -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
   -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
   box-shadow:10px 10px 7px rgba(0,0,0,.7);
@@ -59,11 +60,6 @@ max-width:150%;
   -o-transform: scale(1.10);
   position:relative;
   z-index:5;
-}
-
-.snote ul li {
-  margin:1em;
-  float:left
 }
 
 .snote ul li h2 {
@@ -79,4 +75,18 @@ max-width:150%;
   font-family:'Shadows Into Light Two',arial,sans-serif;
   font-size:100%;
   color:#000;
+}
+
+/* Button style  */
+ul li div .update_button {
+	padding: 1px 3px;
+	margin: 10px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.image_stickynotes {
+  width: 95%;
+  max-height: 95%;
 }

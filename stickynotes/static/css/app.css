@@ -1,6 +1,8 @@
 body {
-  background-image: url(../img/gold_scale.png);
+  background-image: url(../images/gold_scale.png);
+  margin-bottom: 60px; /* Margin bottom by footer height */
 }
+
 html {
   position: relative;
   min-height: 100%;
@@ -15,9 +17,6 @@ nav {
   font-family: 'Pacifico', cursive;
 }
 
-body {
-  margin-bottom: 60px; /* Margin bottom by footer height */
-}
 .footer {
   position: absolute;
   bottom: 0;

@@ -6,17 +6,17 @@
 Post-it
 {% endblock %}
 
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">StickyNotes</li>
+{% endblock %}
+
 {% block content %}
 
-  <h2>StickyNotes</h2>
-
-
-
   <div class="note_type">
-    <ul>
+    <ul style="display: table;">
       {% for type_stickynote in type_stickynotes %}
-        <li>
-          <a href="{% url 'create_stickynotes' type_stickynote %}">Add StickyNote {{ type_stickynote }}</a>
+        <li style="vertical-align: middle; display: table-cell; padding: 1em;">
+          <a href="{% url 'create_stickynotes' type_stickynote %}" title="Create new stickynotes {{ type_stickynote }}"><img src="{% get_static_prefix %}images/stickynotes/add_{{ type_stickynote }}.png" alt="Add StickyNote {{ type_stickynote }}" /></a>
         </li>
       {% empty %}
         No type found!
@@ -24,47 +24,10 @@ Post-it
     </ul>
   </div>
 
-  <a href="/admin/logout">Logout</a>
-
   <!-- modal window for add stickynote -->
   <div class="modal fade" id="modal"></div>
 
-  <!-- Display notes -->
-  <div class="snote">
-    <ul>
-      {% for stickynote in stickynotes.all %}
-        <li>
-          <a href="#" class="postit_link">
-            <h2>{{ stickynote.title }}</h2><hr/>
-            <p>
-              {% if stickynote.imagestickynote %}
-              <img src="{{ stickynote.imagestickynote.image_content }}">
-              {% elif stickynote.videostickynote %}
-                {% load embed_video_tags %}
-                  {% video stickynote.videostickynote.video_content as my_video %}
-                    {% video my_video "tiny" %}
-                {% endvideo %}
-              {% else %}
-              {{ stickynote.text_content }}
-              {% endif %}
-              <!-- Normal text -->
-              <!---Content : {{ stickynote.content }}-->
-
-              <!-- Test with video url (youtube, vimeo, soundcloud) -->
-            </p>
-            <p> Date created : {{ stickynote.date_created }} </p>
-            <p> Created by : {{ stickynote.user_created }} </p>
-          </a>
-        {% if user.id == stickynote.user_created.id %}
-          <a href="{% url 'update_stickynotes' stickynote.id %}">update</a><br/>
-        {% endif %}
-          <a href="{% url 'delete_stickynotes' stickynote.id %}">remove</a>
-        </li>
-      {% empty %}
-        <li>No stickynote</li>
-      {% endfor %}
-    </ul>
-  </div>
+ {% include 'notes/single_note.html' with stickynotes=stickynotes %}
 
 {% endblock %}
 

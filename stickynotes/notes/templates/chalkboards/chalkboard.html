@@ -12,13 +12,9 @@ Chalkboards
 
 {% block content %}
 
-  {% if chlks %}
-  {% for chlk in chlks %}
-  <p>Chalkboard name : {{ chlk.name }}</p>
-  <p>Description : {{ chlk.description }}</p>
-  {% endfor %}
-  {% else %}
-  <a href="{% url 'chalkboards' %}">Create a new chalkboard !</a>
-  {% endif %}
+<p>Name : {{ chlk.name }}</p>
+<p>Description : {{ chlk.description }}</p>
+
+ {% include 'notes/single_note.html' with stickynotes=stickynotes %}
 
 {% endblock %}

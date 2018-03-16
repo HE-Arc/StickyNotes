@@ -38,7 +38,11 @@ urlpatterns = [
     url(r'^settings/password/done/$', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
         name='password_change_done'),
     # NOTES CRUD
-    path('create/<str:type_stickynote>', views.create, name='create_stickynotes'),
-    path('delete/<int:id_stickynote>', views.delete, name='delete_stickynotes'),
-    path('update/<int:id_stickynote>', views.update, name='update_stickynotes'),
+    path('create/<str:type_stickynote>', views.create_stickynotes, name='create_stickynotes'),
+    path('delete/<int:id_stickynote>', views.delete_stickynotes, name='delete_stickynotes'),
+    path('update/<int:id_stickynote>', views.update_stickynotes, name='update_stickynotes'),
+
+    #CHALKBOARD CRUD
+    path('create', views.create_chalkboard, name='create_chalkboard'),
+    path('chalkboard/<int:id_chalkboard>', views.display_chalkboards, name='display_chalkboards'),
 ]
