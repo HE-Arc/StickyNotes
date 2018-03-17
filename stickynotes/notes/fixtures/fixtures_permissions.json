@@ -3,21 +3,29 @@
     "model": "notes.PermissionChalkboard",
     "pk": 1,
     "fields" : {
-      "description": "Create own stickynotes",
-      "permission": "stickynote_create_own"
+      "description": "All permission (super user)",
+      "permission": "all"
     }
   },
   {
     "model": "notes.PermissionChalkboard",
     "pk": 2,
     "fields" : {
-      "description": "Read own stickynotes",
-      "permission": "stickynote_read_own"
+      "description": "Create own stickynotes",
+      "permission": "stickynote_create_own"
     }
   },
   {
     "model": "notes.PermissionChalkboard",
     "pk": 3,
+    "fields" : {
+      "description": "Read chalkboard",
+      "permission": "chalkboard_read"
+    }
+  },
+  {
+    "model": "notes.PermissionChalkboard",
+    "pk": 4,
     "fields" : {
       "description": "Update own stickynotes",
       "permission": "stickynote_update_own"
@@ -25,7 +33,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 4,
+    "pk": 5,
     "fields" : {
       "description": "Delete own stickynotes",
       "permission": "stickynote_delete_own"
@@ -33,7 +41,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 5,
+    "pk": 6,
     "fields" : {
       "description": "Read all stickynotes",
       "permission": "stickynote_read_all"
@@ -41,7 +49,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 6,
+    "pk": 7,
     "fields" : {
       "description": "Update all stickynotes",
       "permission": "stickynote_update_all"
@@ -49,7 +57,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 7,
+    "pk": 8,
     "fields" : {
       "description": "Delete all stickynotes",
       "permission": "stickynote_delete_all"
@@ -57,7 +65,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 8,
+    "pk": 9,
     "fields" : {
       "description": "Add user to chalkboard",
       "permission": "chalkboard_add_user"
@@ -65,7 +73,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 9,
+    "pk": 10,
     "fields" : {
       "description": "Remove user to chalkboard",
       "permission": "chalkboard_remove_user"
@@ -73,7 +81,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 10,
+    "pk": 11,
     "fields" : {
       "description": "Manage permission user to chalkboard",
       "permission": "chalkboard_manage_permission_user"
@@ -81,7 +89,7 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 11,
+    "pk": 12,
     "fields" : {
       "description": "Manage permission chalkboard",
       "permission": "chalkboard_manage_permission"
@@ -89,10 +97,10 @@
   },
   {
     "model": "notes.PermissionChalkboard",
-    "pk": 12,
+    "pk": 13,
     "fields" : {
       "description": "Delete chalkboard",
       "permission": "chalkboard_delete"
     }
-  }
+  },
 ]

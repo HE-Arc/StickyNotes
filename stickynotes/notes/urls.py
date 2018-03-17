@@ -44,5 +44,7 @@ urlpatterns = [
 
     #CHALKBOARD CRUD
     path('create', views.create_chalkboard, name='create_chalkboard'),
-    path('chalkboard/<int:id_chalkboard>', views.display_chalkboards, name='display_chalkboards'),
+    path('chalkboard/<int:id_chalkboard>', views.display_chalkboard, name='display_chalkboard'),
+    path('join/<int:id_chalkboard>', views.join_chalkboard, name='join_chalkboard'),
+    path('leave/<int:id_chalkboard>', views.leave_chalkboard, name='leave_chalkboard'),
 ]

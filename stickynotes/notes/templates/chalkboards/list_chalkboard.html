@@ -1,24 +1,18 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load bootstrap4 %}
-
-{% block title %}
-Chalkboards
-{% endblock %}
-
-{% block breadcrumb %}
-  <li class="breadcrumb-item active">Chalkboards</li>
-{% endblock %}
-
-{% block content %}
-
-  <a href="{% url 'create_chalkboard' %}">Create</a>
-
-  {% for chlk in chlks %}
-    <p>Chalkboard name : <a href="{% url 'display_chalkboards' chlk.id %}" >{{ chlk.name }}</a></p>
-    <p>Description : {{ chlk.description }}</p>
-  {% empty %}
-    <p>You have not chalkboard !</p>
-  {% endfor %}
-
-{% endblock %}
+<h4>
+  {{ chalkboard_title }}
+</h4>
+{% for chlk in chlks %}
+  <p>
+    Chalkboard name : <a href="{% url 'display_chalkboard' chlk.id %}" >{{ chlk.name }}</a><br>
+    Description : {{ chlk.description }}<br>
+    {% if is_joined %}
+      <a href="{% url 'leave_chalkboard' chlk.id %}">Leave</a>
+    {% else %}
+        <a href="{% url 'join_chalkboard' chlk.id %}">Join</a>
+    {% endif %}
+  </p>
+{% empty %}
+  <p>
+    {{ chalkboard_empty_message }}
+  </p>
+{% endfor %}

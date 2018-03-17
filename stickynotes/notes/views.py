@@ -19,17 +19,6 @@ def home(request):
     return render(request, 'home.html')
 
 @login_required
-def chalkboards(request):
-    chlks = Chalkboard.objects.filter(user_created=request.user)
-    return render(request, 'chalkboards/list_chalkboard.html', {'chlks' : chlks})
-
-@login_required
-def display_chalkboards(request, id_chalkboard):
-    chlk = get_object_or_404(Chalkboard, id=id_chalkboard, user_created=request.user)
-    stickynotes = StickyNote.objects.filter(chalkboard_id=chlk.id)
-    return render(request, 'chalkboards/chalkboard.html', {'chlk' : chlk, 'stickynotes' : stickynotes, 'type_stickynotes' : type_stickynotes})
-
-@login_required
 def notes(request): # TODO: has to be changed somehow to allow passing from CHLK to NOTES
     stickynotes = StickyNote.objects.filter()
     return render(request, 'notes/note.html', {'stickynotes' : stickynotes, 'type_stickynotes' : type_stickynotes})
@@ -55,7 +44,7 @@ def create_stickynotes(request, type_stickynote, id_chalkboard):
         save_it.user_created = request.user
         save_it.chalkboard = chlk
         save_it.save()
-        return redirect(display_chalkboards, id_chalkboard)
+        return redirect(display_chalkboard, id_chalkboard)
     return render(request, 'notes/note_create_form.html', {'type_stickynote' : type_stickynote, 'form' : form})
 
 @login_required
@@ -74,6 +63,27 @@ def delete_stickynotes(request, id_stickynote):
     return redirect(notes)
 
 @login_required
+def chalkboards(request):
+    own_chlks = Chalkboard.objects.filter(user_created=request.user)
+    public_chlks = Chalkboard.objects.exclude(user_created=request.user).filter(is_private=False, is_active=True)
+    group_permissions_id = GroupPermissionChalkboard.objects.filter(user=request.user).values('chalkboard_id')
+    join_chlks = Chalkboard.objects.filter(id__in=group_permissions_id).exclude(user_created=request.user)
+    return render(request, 'chalkboards/chalkboards.html', {'own_chlks' : own_chlks, 'public_chlks' : public_chlks, 'join_chlks' : join_chlks})
+
+@login_required
+def display_chalkboard(request, id_chalkboard):
+    chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    try:
+        group_permissions = GroupPermissionChalkboard.objects.filter(chalkboard=chlk, user=request.user)
+    except:
+        raise PermissionDenied
+    if group_permissions.exists():
+        permission = PermissionChalkboard.objects.filter(id__in=group_permissions)
+        stickynotes = StickyNote.objects.filter(chalkboard_id=chlk.id)
+        return render(request, 'chalkboards/single_chalkboard.html', {'chlk' : chlk, 'stickynotes' : stickynotes, 'type_stickynotes' : type_stickynotes})
+    return redirect(chalkboards)
+
+@login_required
 def create_chalkboard(request):
     form = ChalkboardForm(request.POST or None)
     if form.is_valid():
@@ -81,8 +91,26 @@ def create_chalkboard(request):
         save_it.user_created = request.user
         save_it.save()
         # Create auto group, creator is the admin
-        group_permission = GroupPermissionChalkboard(user_id=request.user, )
-        #groupChalkboard = GroupChalkboard(chalkboard=save_it, user_created=request.user, is_admin=True)
-        #groupChalkboard.save()
+         # super user has all the privileges
+        permission = PermissionChalkboard.objects.get(permission='all')
+        group_permission = GroupPermissionChalkboard(chalkboard=save_it, user=request.user, permission=permission)
+        group_permission.save()
         return redirect(chalkboards)
     return render(request, 'chalkboards/chalkboard_create_form.html', {'form' : form})
+
+@login_required
+def join_chalkboard(request, id_chalkboard):
+    chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    # default permision (read, CRUD own notes)
+    permissions = PermissionChalkboard.objects.filter(permission__in=['stickynote_create_own', 'chalkboard_read', 'stickynote_update_own', 'stickynote_delete_own'])
+    for permission in permissions:
+        group_permission = GroupPermissionChalkboard(chalkboard=chlk, user=request.user, permission=permission)
+        group_permission.save()
+    return redirect(display_chalkboard, id_chalkboard)
+
+@login_required
+def leave_chalkboard(request, id_chalkboard):
+    chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    group_permissions = GroupPermissionChalkboard.objects.filter(chalkboard=chlk, user=request.user)
+    group_permissions.delete()
+    return redirect(chalkboards)
