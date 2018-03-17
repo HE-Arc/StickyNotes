@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load bootstrap4 %}
+{% load guardian_tags %}
 
 {% block title %}
 Chalkboards
@@ -11,11 +11,19 @@ Chalkboards
 {% endblock %}
 
 {% block content %}
+  {# Get all permissions user #}
+  {% get_obj_perms user for chlk as "permissions" %}
 
   <p>Name : {{ chlk.name }}</p>
   <p>Description : {{ chlk.description }}</p>
 
- {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chlk.id %}
- {% include 'notes/single_note.html' with stickynotes=stickynotes %}
+  {% if 'stickynote_create_own' in permissions %}
+    {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chlk.id %}
+  {% endif %}
+  {% include 'notes/single_note.html' with stickynotes=stickynotes id_chalkboard=chlk.id %}
+
+  {% if 'chalkboard_delete' in permissions %}
+    <a href="{% url 'delete_chalkboard' chlk.id %}">Remove</a>
+  {% endif %}
 
 {% endblock %}

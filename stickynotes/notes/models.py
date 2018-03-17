@@ -10,6 +10,9 @@ from django.conf import settings
 from enumfields import EnumField, Enum
 from embed_video.fields import EmbedVideoField
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 # Create your models here.
 class Chalkboard(models.Model):
     """ Chalkboard containing different types of notes """
@@ -26,33 +29,40 @@ class Chalkboard(models.Model):
         blank=False,
     )
 
+    class Meta:
+        permissions = (
+            ('stickynote_create_own', 'Create own stickynotes'),
+            ('stickynote_update_own', 'Update own stickynotes'),
+            ('stickynote_delete_own', 'Delete own stickynotes'),
+            ('stickynote_read_all', 'Read all stickynotes'),
+            ('stickynote_update_all', 'Update all stickynotes'),
+            ('stickynote_delete_all', 'Delete all stickynotes'),
+            ('chalkboard_add_user', 'Add user to chalkboard'),
+            ('chalkboard_remove_user', 'Remove user to chalkboard'),
+            ('chalkboard_manage_permission_user', 'Manage permission user to chalkboard'),
+            ('chalkboard_manage_permission', 'Manage permission chalkboard'),
+            ('chalkboard_delete', 'Delete chalkboard'),
+        )
+
     def __str__(self):
         return self.name
 
-class PermissionChalkboard(models.Model):
-    """ Chalkboard permission users  """
-    description = models.CharField(max_length=255)
-    permission = models.CharField(max_length=75)
-
-class GroupPermissionChalkboard(models.Model):
-    """ Chalkboard group define which user has rights  """
+class JoinChalkboard(models.Model):
+    """ Chalkboard joined by a user """
     chalkboard = models.ForeignKey(Chalkboard, on_delete=models.CASCADE)
-    user = models.ForeignKey(
+    user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=False,
         blank=False,
     )
-    permission = models.ForeignKey(PermissionChalkboard, on_delete=models.CASCADE)
 
 # TODO
 class FavoriteChalkboards(models.Model):
     """ Contains a users's favorite chalkboards """
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
-
     favorites = models.ForeignKey(Chalkboard, on_delete=models.CASCADE)
-
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -94,3 +104,5 @@ class VideoStickyNote(StickyNote):
 
     def __str__(self):
         return "video"
+
+# Signals

@@ -29,3 +29,5 @@ capistranoscript
 capistranoscript\.lock
 
 *.rb
+
+migrations/

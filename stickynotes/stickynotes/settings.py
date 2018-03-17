@@ -31,6 +31,8 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
+# Guardian settings
+GUARDIAN_RENDER_403 = True
 
 # Application definition
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'notes',
     'embed_video',
+    'guardian',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -54,6 +57,11 @@ EMBED_VIDEO_BACKENDS = (
     'embed_video.backends.YoutubeBackend',
     'embed_video.backends.VimeoBackend',
     'embed_video.backends.SoundCloudBackend',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
 )
 
 MIDDLEWARE = [

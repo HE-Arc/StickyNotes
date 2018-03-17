@@ -38,13 +38,14 @@ urlpatterns = [
     url(r'^settings/password/done/$', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
         name='password_change_done'),
     # NOTES CRUD
-    path('create/<str:type_stickynote>/<int:id_chalkboard>', views.create_stickynotes, name='create_stickynotes'),
-    path('delete/<int:id_stickynote>', views.delete_stickynotes, name='delete_stickynotes'),
-    path('update/<int:id_stickynote>', views.update_stickynotes, name='update_stickynotes'),
+    path('chalkboard/<int:id_chalkboard>/notes/create/<str:type_stickynote>', views.create_stickynotes, name='create_stickynotes'),
+    path('chalkboard/<int:id_chalkboard>/notes/delete/<int:id_stickynote>', views.delete_stickynotes, name='delete_stickynotes'),
+    path('chalkboard/<int:id_chalkboard>/notes/update/<int:id_stickynote>', views.update_stickynotes, name='update_stickynotes'),
 
     #CHALKBOARD CRUD
-    path('create', views.create_chalkboard, name='create_chalkboard'),
+    path('chalkboard/create', views.create_chalkboard, name='create_chalkboard'),
     path('chalkboard/<int:id_chalkboard>', views.display_chalkboard, name='display_chalkboard'),
-    path('join/<int:id_chalkboard>', views.join_chalkboard, name='join_chalkboard'),
-    path('leave/<int:id_chalkboard>', views.leave_chalkboard, name='leave_chalkboard'),
+    path('chalkboard/join/<int:id_chalkboard>', views.join_chalkboard, name='join_chalkboard'),
+    path('chalkboard/leave/<int:id_chalkboard>', views.leave_chalkboard, name='leave_chalkboard'),
+    path('chalkboard/<int:id_chalkboard>/delete', views.delete_chalkboard, name='delete_chalkboard'),
 ]
