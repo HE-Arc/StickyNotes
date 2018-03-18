@@ -1,0 +1,10 @@
+<h1>Êtes-vous sûr de vouloir supprimer cette URL ?</h1>
+
+<p>{{ chalkboard.name }} -&gt; {{ chalkboard.description }}</p>
+
+<h1>TODO : POPUP Design à faire</h1>
+
+<form method="post" action="">
+   {% csrf_token %}  <!-- Nous prenons bien soin d'ajouter le csrf_token -->
+   <input type="submit" value"Oui" /> - <a href="{% url 'chalkboard' %}">Non</a>
+</form>

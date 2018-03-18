@@ -13,11 +13,11 @@ Chalkboards
 {% block content %}
 
 
-  <a href="{% url 'create_chalkboard' %}">Create</a>
+    <a href="{% url 'create_chalkboard' %}">Create</a>
   <br><br>
 
-  {% include 'chalkboards/list_chalkboard.html' with chlks=own_chlks chalkboard_title="My chalkboards :" chalkboard_empty_message="You don't have chalkboard !" is_joined=True %}
-  {% include 'chalkboards/list_chalkboard.html' with chlks=join_chlks chalkboard_title="Join chalkboards :" chalkboard_empty_message="You didn't join chalkboard !" is_joined=True %}
-  {% include 'chalkboards/list_chalkboard.html' with chlks=public_chlks   chalkboard_title="Public chalkboards :" chalkboard_empty_message="Public chalkboard not found " is_joined=False %}
+  {% include 'chalkboards/list_chalkboard.html' with chalkboards=own_chlks chalkboard_title="My chalkboards :" chalkboard_empty_message="You don't have chalkboard !" is_joined=True %}
+  {% include 'chalkboards/list_chalkboard.html' with chalkboards=join_chlks chalkboard_title="Join chalkboards :" chalkboard_empty_message="You didn't join chalkboard !" is_joined=True %}
+  {% include 'chalkboards/list_chalkboard.html' with chalkboards=public_chlks   chalkboard_title="Public chalkboards :" chalkboard_empty_message="Public chalkboard not found " is_joined=False %}
 
 {% endblock %}

@@ -1,14 +1,14 @@
 <h4>
   {{ chalkboard_title }}
 </h4>
-{% for chlk in chlks %}
+{% for chalkboard in chalkboards %}
   <p>
-    Chalkboard name : <a href="{% url 'display_chalkboard' chlk.id %}" >{{ chlk.name }}</a><br>
-    Description : {{ chlk.description }}<br>
+    Chalkboard name : <a href="{% url 'details_chalkboard' chalkboard.id %}" >{{ chalkboard.name }}</a><br>
+    Description : {{ chalkboard.description }}<br>
     {% if is_joined %}
-      <a href="{% url 'leave_chalkboard' chlk.id %}">Leave</a>
+      <a href="{% url 'leave_chalkboard' chalkboard.id %}">Leave</a>
     {% else %}
-        <a href="{% url 'join_chalkboard' chlk.id %}">Join</a>
+        <a href="{% url 'join_chalkboard' chalkboard.id %}">Join</a>
     {% endif %}
   </p>
 {% empty %}

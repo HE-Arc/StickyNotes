@@ -12,18 +12,21 @@ Chalkboards
 
 {% block content %}
   {# Get all permissions user #}
-  {% get_obj_perms user for chlk as "permissions" %}
+  {% get_obj_perms user for chalkboard as "permissions" %}
+  {% if 'chalkboard_manage_permission_user' in permissions %}
+    <a href="#">Manage permissions user</a>
+  {% endif %}
 
-  <p>Name : {{ chlk.name }}</p>
-  <p>Description : {{ chlk.description }}</p>
+  <p>Name : {{ chalkboard.name }}</p>
+  <p>Description : {{ chalkboard.description }}</p>
 
   {% if 'stickynote_create_own' in permissions %}
-    {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chlk.id %}
+    {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chalkboard.id %}
   {% endif %}
-  {% include 'notes/single_note.html' with stickynotes=stickynotes id_chalkboard=chlk.id %}
+  {% include 'notes/single_note.html' with stickynotes=stickynotes id_chalkboard=chalkboard.id %}
 
   {% if 'chalkboard_delete' in permissions %}
-    <a href="{% url 'delete_chalkboard' chlk.id %}">Remove</a>
+    <a href="{% url 'delete_chalkboard' chalkboard.id %}">Remove</a>
   {% endif %}
 
 {% endblock %}

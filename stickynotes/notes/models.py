@@ -47,6 +47,11 @@ class Chalkboard(models.Model):
     def __str__(self):
         return self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('details_chalkboard', [int(self.pk)])
+
+
 class JoinChalkboard(models.Model):
     """ Chalkboard joined by a user """
     chalkboard = models.ForeignKey(Chalkboard, on_delete=models.CASCADE)

@@ -11,7 +11,7 @@ from.forms import RegisterForm
 def register(request):
     if request.method == 'POST':
         # does not display email field for some reason
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST or None)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)

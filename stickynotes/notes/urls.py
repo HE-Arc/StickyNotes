@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 
 from . import views
@@ -8,7 +8,18 @@ from accounts import views as accounts_views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^notes', views.notes, name='view_notes'),
-    url(r'^chalkboards', views.chalkboards, name='chalkboards'),
+    # NOTES CRUD
+    path('chalkboard/<int:id_chalkboard>/notes/create/<str:type_stickynote>', views.create_stickynotes, name='create_stickynotes'),
+    path('chalkboard/<int:id_chalkboard>/notes/delete/<int:id_stickynote>', views.delete_stickynotes, name='delete_stickynotes'),
+    path('chalkboard/<int:id_chalkboard>/notes/update/<int:id_stickynote>', views.update_stickynotes, name='update_stickynotes'),
+
+    #CHALKBOARD CRUD
+    re_path(r'^chalkboard/create', views.ChalkboardCreateView.as_view(), name='create_chalkboard'),
+    path('chalkboard/join/<int:id_chalkboard>', views.join_chalkboard, name='join_chalkboard'),
+    path('chalkboard/leave/<int:id_chalkboard>', views.leave_chalkboard, name='leave_chalkboard'),
+    re_path(r'^chalkboard/delete/(?P<pk>\d+)', views.ChalkboardDeleteView.as_view(), name='delete_chalkboard'),
+    re_path(r'^chalkboard/(?P<pk>\d+)', views.ChalkboardDetailView.as_view(), name='details_chalkboard'),
+    url(r'^chalkboard', views.ChalkboardListView.as_view(), name='chalkboard'),
     # TODO: notes has to be replaced by something like this ..
     # url(r'^chalkboards/(?P<pk>\d+)/$', views.notes, name='notes'),
     # ACCOUNTS
@@ -37,15 +48,4 @@ urlpatterns = [
         name='password_change'),
     url(r'^settings/password/done/$', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
         name='password_change_done'),
-    # NOTES CRUD
-    path('chalkboard/<int:id_chalkboard>/notes/create/<str:type_stickynote>', views.create_stickynotes, name='create_stickynotes'),
-    path('chalkboard/<int:id_chalkboard>/notes/delete/<int:id_stickynote>', views.delete_stickynotes, name='delete_stickynotes'),
-    path('chalkboard/<int:id_chalkboard>/notes/update/<int:id_stickynote>', views.update_stickynotes, name='update_stickynotes'),
-
-    #CHALKBOARD CRUD
-    path('chalkboard/create', views.create_chalkboard, name='create_chalkboard'),
-    path('chalkboard/<int:id_chalkboard>', views.display_chalkboard, name='display_chalkboard'),
-    path('chalkboard/join/<int:id_chalkboard>', views.join_chalkboard, name='join_chalkboard'),
-    path('chalkboard/leave/<int:id_chalkboard>', views.leave_chalkboard, name='leave_chalkboard'),
-    path('chalkboard/<int:id_chalkboard>/delete', views.delete_chalkboard, name='delete_chalkboard'),
 ]

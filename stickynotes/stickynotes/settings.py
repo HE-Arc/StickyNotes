@@ -32,7 +32,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = []
 
 # Guardian settings
-GUARDIAN_RENDER_403 = True
+GUARDIAN_RAISE_403 = True
 
 # Application definition
 
@@ -83,6 +83,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'notes/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
