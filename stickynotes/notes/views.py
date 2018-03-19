@@ -83,11 +83,11 @@ def delete_stickynotes(request, id_chalkboard, id_stickynote):
     chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
     stickynote = get_object_or_404(StickyNote, id=id_stickynote)
     can_delete = False
-    if request.user == stickynote.user_created and checker.has_perm('stickynote_update_own', chlk):
+    if request.user == stickynote.user_created and checker.has_perm('stickynote_delete_own', chlk):
         can_delete = True
-    elif request.user != stickynote.user_created and checker.has_perm('stickynote_update_all', chlk):
+    elif request.user != stickynote.user_created and checker.has_perm('stickynote_delete_all', chlk):
         can_delete = True
-    elif request.user == stickynote.user_created and checker.has_perm('stickynote_update_all', chlk):
+    elif request.user == stickynote.user_created and checker.has_perm('stickynote_delete_own', chlk):
         can_delete = True
     if can_delete:
         stickynote.delete()
