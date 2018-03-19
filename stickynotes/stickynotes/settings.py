@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'notes',
     'embed_video',
     'guardian',
+    'django_tables2'
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -16,10 +16,10 @@ from django.dispatch import receiver
 # Create your models here.
 class Chalkboard(models.Model):
     """ Chalkboard containing different types of notes """
-    name = models.CharField(max_length=50)
-    description = models.TextField(max_length=500)
-    is_private = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    name = models.CharField(max_length=50, verbose_name='Name')
+    description = models.TextField(max_length=500, verbose_name='Description')
+    is_private = models.BooleanField(default=False, verbose_name='Private')
+    is_active = models.BooleanField(default=True, verbose_name='Active')
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     user_created = models.ForeignKey(

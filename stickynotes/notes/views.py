@@ -19,6 +19,7 @@ from guardian.decorators import permission_required_or_403
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 # Global ??
@@ -114,7 +115,7 @@ def leave_chalkboard(request, id_chalkboard):
     JoinChalkboard.objects.filter(chalkboard=chlk, user_created=request.user).delete()
     return redirect('chalkboard')
 
-class ChalkboardListView(ListView):
+class ChalkboardListView(LoginRequiredMixin, ListView):
 
     model = Chalkboard
     template_name = 'chalkboards/chalkboards.html'
@@ -132,7 +133,7 @@ class ChalkboardListView(ListView):
     def dispatch(self, *args, **kwargs):
         return super(ChalkboardListView, self).dispatch(*args, **kwargs)
 
-class ChalkboardDetailView(DetailView):
+class ChalkboardDetailView(LoginRequiredMixin, DetailView):
 
     model = Chalkboard
     template_name = 'chalkboards/single_chalkboard.html'
@@ -154,7 +155,7 @@ class ChalkboardDetailView(DetailView):
     def dispatch(self, *args, **kwargs):
         return super(ChalkboardDetailView, self).dispatch(*args, **kwargs)
 
-class ChalkboardCreateView(CreateView):
+class ChalkboardCreateView(LoginRequiredMixin, CreateView):
 
     model = Chalkboard
     template_name = 'chalkboards/chalkboard_create_form.html'
@@ -181,7 +182,7 @@ class ChalkboardCreateView(CreateView):
         messages.success(self.request, 'Your chalkboard has been successfully created')
         return redirect(self.get_success_url())
 
-class ChalkboardDeleteView(DeleteView):
+class ChalkboardDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Chalkboard
     template_name = 'chalkboards/chalkboard_delete_form.html'
