@@ -20,7 +20,7 @@ from guardian.decorators import permission_required_or_403
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from guardian.utils import clean_orphan_obj_perms
 # Create your views here.
 # Global ??
 type_stickynotes = [StickyNote, ImageStickyNote, VideoStickyNote]
@@ -51,7 +51,7 @@ def create_stickynotes(request, id_chalkboard, type_stickynote):
         save_it.user_created = request.user
         save_it.chalkboard = chlk
         save_it.save()
-        return redirect(details_chalkboard, id_chalkboard)
+        return redirect('details_chalkboard', id_chalkboard)
     return render(request, 'notes/note_create_form.html', {'type_stickynote' : type_stickynote, 'form' : form})
 
 @login_required
@@ -158,7 +158,7 @@ class ChalkboardDetailView(LoginRequiredMixin, DetailView):
 class ChalkboardCreateView(LoginRequiredMixin, CreateView):
 
     model = Chalkboard
-    template_name = 'chalkboards/chalkboard_create_form.html'
+    template_name = 'chalkboards/chalkboard_form.html'
     form_class = ChalkboardForm
 
     def get_success_url(self):
@@ -178,9 +178,23 @@ class ChalkboardCreateView(LoginRequiredMixin, CreateView):
         assign_permission('chalkboard_remove_user', self.request.user, self.object)
         assign_permission('chalkboard_manage_permission_user', self.request.user, self.object)
         assign_permission('chalkboard_manage_permission', self.request.user, self.object)
+        assign_permission('chalkboard_update', self.request.user, self.object)
         assign_permission('chalkboard_delete', self.request.user, self.object)
         messages.success(self.request, 'Your chalkboard has been successfully created')
         return redirect(self.get_success_url())
+
+class ChalkboardUpdateView(LoginRequiredMixin, UpdateView):
+
+    model = Chalkboard
+    template_name = 'chalkboards/chalkboard_form.html'
+    form_class = ChalkboardForm
+
+    def get_success_url(self):
+        return reverse('details_chalkboard', kwargs={'pk' : self.object.pk})
+
+    @method_decorator(permission_required_or_403('notes.chalkboard_update', (Chalkboard, 'id', 'pk')))
+    def dispatch(self, *args, **kwargs):
+        return super(ChalkboardUpdateView, self).dispatch(*args, **kwargs)
 
 class ChalkboardDeleteView(LoginRequiredMixin, DeleteView):
 

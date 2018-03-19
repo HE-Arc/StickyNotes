@@ -17,6 +17,9 @@ Chalkboards
     <a href="#">Manage permissions user</a>
   {% endif %}
 
+  {% if 'chalkboard_update' in permissions %}
+    <p><a href="{% url 'update_chalkboard' chalkboard.id %}">Update</a></p>
+  {% endif %}
   <p>Name : {{ chalkboard.name }}</p>
   <p>Description : {{ chalkboard.description }}</p>
 

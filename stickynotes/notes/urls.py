@@ -15,9 +15,10 @@ urlpatterns = [
 
     #CHALKBOARD CRUD
     re_path(r'^chalkboard/create', views.ChalkboardCreateView.as_view(), name='create_chalkboard'),
+    re_path(r'^chalkboard/(?P<pk>\d+)/update', views.ChalkboardUpdateView.as_view(), name='update_chalkboard'),
     path('chalkboard/join/<int:id_chalkboard>', views.join_chalkboard, name='join_chalkboard'),
     path('chalkboard/leave/<int:id_chalkboard>', views.leave_chalkboard, name='leave_chalkboard'),
-    re_path(r'^chalkboard/delete/(?P<pk>\d+)', views.ChalkboardDeleteView.as_view(), name='delete_chalkboard'),
+    re_path(r'^chalkboard/(?P<pk>\d+)/delete', views.ChalkboardDeleteView.as_view(), name='delete_chalkboard'),
     re_path(r'^chalkboard/(?P<pk>\d+)', views.ChalkboardDetailView.as_view(), name='details_chalkboard'),
     url(r'^chalkboard', views.ChalkboardListView.as_view(), name='chalkboard'),
     # TODO: notes has to be replaced by something like this ..
