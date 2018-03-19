@@ -52,7 +52,7 @@ def create_stickynotes(request, id_chalkboard, type_stickynote):
         save_it.chalkboard = chlk
         save_it.save()
         return redirect('details_chalkboard', id_chalkboard)
-    return render(request, 'notes/note_create_form.html', {'type_stickynote' : type_stickynote, 'form' : form})
+    return render(request, 'notes/note_form.html', {'type_stickynote' : type_stickynote, 'form' : form})
 
 @login_required
 def update_stickynotes(request, id_chalkboard, id_stickynote):
@@ -71,11 +71,11 @@ def update_stickynotes(request, id_chalkboard, id_stickynote):
         if form.is_valid():
             form.save()
             messages.success(request, 'Update succes')
-            return redirect(details_chalkboard, id_chalkboard)
+            return redirect('details_chalkboard', id_chalkboard)
     else:
         messages.warning(request, 'You don\'t have permission')
-        return redirect(details_chalkboard, id_chalkboard)
-    return render(request, "notes/note_create_form.html", {'form': form})
+        return redirect('details_chalkboard', id_chalkboard)
+    return render(request, "notes/note_form.html", {'form': form})
 
 @login_required
 def delete_stickynotes(request, id_chalkboard, id_stickynote):
@@ -94,7 +94,7 @@ def delete_stickynotes(request, id_chalkboard, id_stickynote):
         messages.success(request, 'Delete succes')
     else:
         messages.warning(request, 'You don\'t have permission')
-    return redirect(details_chalkboard, id_chalkboard)
+    return redirect('details_chalkboard', id_chalkboard)
 
 @login_required
 def join_chalkboard(request, id_chalkboard):
@@ -114,6 +114,10 @@ def leave_chalkboard(request, id_chalkboard):
         remove_perm(perm, request.user, chlk)
     JoinChalkboard.objects.filter(chalkboard=chlk, user_created=request.user).delete()
     return redirect('chalkboard')
+
+#    @method_decorator(permission_required_or_403('notes.stickynote_update_own', (Chalkboard, 'id', 'pk')))
+#    def dispatch(self, *args, **kwargs):
+#        return super(ChalkboardUpdateView, self).dispatch(*args, **kwargs)
 
 class ChalkboardListView(LoginRequiredMixin, ListView):
 
@@ -147,7 +151,6 @@ class ChalkboardDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         # Get context super-class
         context = super(ChalkboardDetailView, self).get_context_data(**kwargs)
-        context['chlk'] = self.object
         context['stickynotes'] = StickyNote.objects.filter(chalkboard_id=self.object)
         context['type_stickynotes'] = type_stickynotes
         return context
@@ -191,6 +194,13 @@ class ChalkboardUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('details_chalkboard', kwargs={'pk' : self.object.pk})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user_created = self.request.user
+        self.object.save()
+        messages.success(self.request, 'Your chalkboard has been successfully modified')
+        return redirect(self.get_success_url())
 
     @method_decorator(permission_required_or_403('notes.chalkboard_update', (Chalkboard, 'id', 'pk')))
     def dispatch(self, *args, **kwargs):

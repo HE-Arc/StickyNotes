@@ -1,34 +1,26 @@
 <!-- Display notes -->
-<div class="snote">
-  <ul>
-    {% for stickynote in stickynotes.all %}
-      <li>
-        <div class="postit_link">
-          <h2>{{ stickynote.title }}</h2><hr/>
-          <p>
-            {% if stickynote.imagestickynote %}
-              <img class="image_stickynotes" src="{{ stickynote.imagestickynote.image_content }}">
-            {% elif stickynote.videostickynote %}
-              {% load embed_video_tags %}
-                {% video stickynote.videostickynote.video_content as my_video %}
-                  {% video my_video '95%x95%' %}
-              {% endvideo %}
-            {% else %}
-              {{ stickynote.text_content }}
-            {% endif %}
-          </p>
-          <p> Date created : {{ stickynote.date_created }} </p>
-          <p> Created by : {{ stickynote.user_created }} </p>
-        </div>
-        {% if user.id == stickynote.user_created_id and 'stickynote_update_own' in permissions or user.id != stickynote.user_created_id and 'stickynote_update_all' in permissions %}
-            <a href="{% url 'update_stickynotes' id_chalkboard stickynote.id %}">update</a>
-        {% endif %}
-        {% if user.id == stickynote.user_created_id and 'stickynote_delete_own' in permissions or user.id != stickynote.user_created_id and 'stickynote_delete_all' in permissions %}
-            <a href="{% url 'delete_stickynotes' id_chalkboard stickynote.id %}">remove</a>
-        {% endif %}
-      </li>
-    {% empty %}
-      <li>No stickynote</li>
-    {% endfor %}
-  </ul>
-</div>
+<li>
+  <div class="postit_link">
+    <h2>{{ stickynote.title }}</h2><hr/>
+    <p>
+      {% if stickynote.imagestickynote %}
+        <img class="image_stickynotes" src="{{ stickynote.imagestickynote.image_content }}">
+      {% elif stickynote.videostickynote %}
+        {% load embed_video_tags %}
+          {% video stickynote.videostickynote.video_content as my_video %}
+            {% video my_video '95%x95%' %}
+        {% endvideo %}
+      {% else %}
+        {{ stickynote.text_content }}
+      {% endif %}
+    </p>
+    <p> Date created : {{ stickynote.date_created }} </p>
+    <p> Created by : {{ stickynote.user_created }} </p>
+  </div>
+  {% if user.id == stickynote.user_created_id and 'stickynote_update_own' in permissions or user.id != stickynote.user_created_id and 'stickynote_update_all' in permissions %}
+      <a href="{% url 'update_stickynotes' id_chalkboard stickynote.id %}">update</a>
+  {% endif %}
+  {% if user.id == stickynote.user_created_id and 'stickynote_delete_own' in permissions or user.id != stickynote.user_created_id and 'stickynote_delete_all' in permissions %}
+      <a href="{% url 'delete_stickynotes' id_chalkboard stickynote.id %}">remove</a>
+  {% endif %}
+</li>

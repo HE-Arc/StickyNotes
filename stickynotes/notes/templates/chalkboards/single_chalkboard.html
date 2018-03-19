@@ -26,7 +26,15 @@ Chalkboards
   {% if 'stickynote_create_own' in permissions %}
     {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chalkboard.id %}
   {% endif %}
-  {% include 'notes/single_note.html' with stickynotes=stickynotes id_chalkboard=chalkboard.id %}
+  <div class="snote">
+    <ul>
+      {% for stickynote in stickynotes.all %}
+        {% include 'notes/single_note.html' with stickynote=stickynote id_chalkboard=chalkboard.id %}
+        {% empty %}
+        <li>No stickynote</li>
+      {% endfor %}
+    </ul>
+  </div>
 
   {% if 'chalkboard_delete' in permissions %}
     <a href="{% url 'delete_chalkboard' chalkboard.id %}">Remove</a>

@@ -99,6 +99,10 @@ class StickyNote(models.Model):
     def __str__(self):
         return "text"
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('details_chalkboard', [int(self.chalkboard.pk)])
+
 
 class ImageStickyNote(StickyNote):
     """ Contains the data created by the users """

@@ -17,7 +17,13 @@ Post-it
   <!-- modal window for add stickynote -->
   <div class="modal fade" id="modal"></div>
 
- {% include 'notes/single_note.html' with stickynotes=stickynotes %}
+  <ul>
+    {% for stickynote in stickynotes.all %}
+      {% include 'notes/single_note.html' with stickynote=stickynote %}
+      {% empty %}
+      <li>No stickynote</li>
+    {% endfor %}
+  </ul>
 
 {% endblock %}
 
