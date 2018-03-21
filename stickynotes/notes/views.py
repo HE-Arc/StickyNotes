@@ -104,7 +104,7 @@ def join_chalkboard(request, id_chalkboard):
 
     # default permision (CRUD own notes)
     assign_default_permission_join_chalkboard(request.user, chlk)
-    JoinChalkboard.objects.create(chalkboard=chlk, user_created=request.user)
+    JoinChalkboard.objects.create(chalkboard=chlk, user=request.user)
     return redirect('details_chalkboard', id_chalkboard)
 
 @login_required
@@ -112,30 +112,55 @@ def leave_chalkboard(request, id_chalkboard):
     chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
     for perm in get_user_perms(request.user, chlk):
         remove_perm(perm, request.user, chlk)
-    JoinChalkboard.objects.filter(chalkboard=chlk, user_created=request.user).delete()
-    return redirect('chalkboard')
+    JoinChalkboard.objects.filter(chalkboard=chlk, user=request.user).delete()
+    return redirect('own_chalkboard')
 
 #    @method_decorator(permission_required_or_403('notes.stickynote_update_own', (Chalkboard, 'id', 'pk')))
 #    def dispatch(self, *args, **kwargs):
 #        return super(ChalkboardUpdateView, self).dispatch(*args, **kwargs)
 
-class ChalkboardListView(LoginRequiredMixin, ListView):
+class OwnChalkboardListView(LoginRequiredMixin, ListView):
 
     model = Chalkboard
     template_name = 'chalkboards/chalkboards.html'
 
     def get_context_data(self, **kwargs):
         # Get context super-class
-        context = super(ChalkboardListView, self).get_context_data(**kwargs)
-        context['own_chlks'] = Chalkboard.objects.filter(user_created=self.request.user)
-        join_chlks_id = JoinChalkboard.objects.filter(user_created=self.request.user).values('chalkboard_id')
-        context['join_chlks'] = Chalkboard.objects.filter(id__in=join_chlks_id)
-        context['public_chlks'] = Chalkboard.objects.exclude(user_created=self.request.user).filter(is_private=False, is_active=True)
+        context = super(OwnChalkboardListView, self).get_context_data(**kwargs)
+        context['chalkboards'] = Chalkboard.objects.filter(user_created=self.request.user)
+        context['joined_chalkboards_id'] = JoinChalkboard.objects.filter(user=self.request.user).values_list('chalkboard_id', flat=True)
+        context['chalkboard_title'] = 'My chalkboards'
+        context['chalkboard_empty_message'] = 'You don\'t have chalkboard !'
         return context
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ChalkboardListView, self).dispatch(*args, **kwargs)
+class JoinedChalkboardListView(LoginRequiredMixin, ListView):
+
+    model = Chalkboard
+    template_name = 'chalkboards/chalkboards.html'
+
+    def get_context_data(self, **kwargs):
+        # Get context super-class
+        context = super(JoinedChalkboardListView, self).get_context_data(**kwargs)
+        join_chlks_id = JoinChalkboard.objects.filter(user=self.request.user).values_list('chalkboard_id', flat=True)
+        context['chalkboards'] = Chalkboard.objects.filter(id__in=join_chlks_id)
+        context['joined_chalkboards_id'] = join_chlks_id
+        context['chalkboard_title'] = 'Joined chalkboards'
+        context['chalkboard_empty_message'] = 'You don\'t have chalkboard !'
+        return context
+
+class PublicChalkboardListView(LoginRequiredMixin, ListView):
+
+    model = Chalkboard
+    template_name = 'chalkboards/chalkboards.html'
+
+    def get_context_data(self, **kwargs):
+        # Get context super-class
+        context = super(PublicChalkboardListView, self).get_context_data(**kwargs)
+        context['chalkboards'] = Chalkboard.objects.exclude(user_created=self.request.user).filter(is_private=False, is_active=True)
+        context['joined_chalkboards_id'] = JoinChalkboard.objects.filter(user=self.request.user).values_list('chalkboard_id', flat=True)
+        context['chalkboard_title'] = 'Public chalkboards'
+        context['chalkboard_empty_message'] = 'You don\'t have chalkboard !'
+        return context
 
 class ChalkboardDetailView(LoginRequiredMixin, DetailView):
 
@@ -151,17 +176,14 @@ class ChalkboardDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         # Get context super-class
         context = super(ChalkboardDetailView, self).get_context_data(**kwargs)
-        context['stickynotes'] = StickyNote.objects.filter(chalkboard_id=self.object)
+        context['stickynotes'] = StickyNote.objects.filter(chalkboard_id=self.object, is_hidden=False)
         context['type_stickynotes'] = type_stickynotes
         return context
-
-    def dispatch(self, *args, **kwargs):
-        return super(ChalkboardDetailView, self).dispatch(*args, **kwargs)
 
 class ChalkboardCreateView(LoginRequiredMixin, CreateView):
 
     model = Chalkboard
-    template_name = 'chalkboards/chalkboard_form.html'
+    template_name = 'chalkboards/chalkboard_create_form.html'
     form_class = ChalkboardForm
 
     def get_success_url(self):
@@ -189,7 +211,7 @@ class ChalkboardCreateView(LoginRequiredMixin, CreateView):
 class ChalkboardUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Chalkboard
-    template_name = 'chalkboards/chalkboard_form.html'
+    template_name = 'chalkboards/chalkboard_update_form.html'
     form_class = ChalkboardForm
 
     def get_success_url(self):
@@ -212,7 +234,7 @@ class ChalkboardDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'chalkboards/chalkboard_delete_form.html'
 
     def get_success_url(self):
-        return reverse('chalkboard')
+        return reverse('own_chalkboard')
 
     @method_decorator(permission_required_or_403('notes.chalkboard_delete', (Chalkboard, 'id', 'pk')))
     def dispatch(self, *args, **kwargs):

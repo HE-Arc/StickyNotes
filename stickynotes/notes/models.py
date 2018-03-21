@@ -60,7 +60,7 @@ class Chalkboard(models.Model):
 class JoinChalkboard(models.Model):
     """ Chalkboard joined by a user """
     chalkboard = models.ForeignKey(Chalkboard, on_delete=models.CASCADE)
-    user_created = models.ForeignKey(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=False,
@@ -98,10 +98,6 @@ class StickyNote(models.Model):
 
     def __str__(self):
         return "text"
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('details_chalkboard', [int(self.chalkboard.pk)])
 
 
 class ImageStickyNote(StickyNote):

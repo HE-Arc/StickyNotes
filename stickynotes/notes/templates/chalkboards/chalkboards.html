@@ -12,12 +12,24 @@ Chalkboards
 
 {% block content %}
 
-
-    <a href="{% url 'create_chalkboard' %}">Create</a>
+  <a data-toggle="modal" data-target="#modal" href="{% url 'create_chalkboard' %}">Create</a>
   <br><br>
 
-  {% include 'chalkboards/list_chalkboard.html' with chalkboards=own_chlks chalkboard_title="My chalkboards :" chalkboard_empty_message="You don't have chalkboard !" is_joined=True %}
-  {% include 'chalkboards/list_chalkboard.html' with chalkboards=join_chlks chalkboard_title="Join chalkboards :" chalkboard_empty_message="You didn't join chalkboard !" is_joined=True %}
-  {% include 'chalkboards/list_chalkboard.html' with chalkboards=public_chlks   chalkboard_title="Public chalkboards :" chalkboard_empty_message="Public chalkboard not found " is_joined=False %}
-
+  {% include 'chalkboards/list_chalkboard.html' with chalkboards=chalkboards joined_chalkboards_id=joined_chalkboards_id chalkboard_title=chalkboard_title chalkboard_empty_message=chalkboard_empty_message %}
+  <div class="modal fade" id="modal"></div>
+{% endblock %}
+{% block javascript %}
+<script>
+$('#modal').on('show.bs.modal', function (event) {
+    var modal = $(this)
+    $.ajax({
+        url: "{% url 'create_chalkboard' %}",
+        context: document.body
+    }).done(function(response) {
+        modal.html(response);
+    });
+});
+var form_options = { target: '#modal', success: function(response) {} };
+$('#create_chalkboard').ajaxForm(form_options);
+</script>
 {% endblock %}

@@ -20,7 +20,9 @@ urlpatterns = [
     path('chalkboard/join/<int:id_chalkboard>', views.join_chalkboard, name='join_chalkboard'),
     path('chalkboard/leave/<int:id_chalkboard>', views.leave_chalkboard, name='leave_chalkboard'),
     re_path(r'^chalkboard/(?P<pk>\d+)', views.ChalkboardDetailView.as_view(), name='details_chalkboard'),
-    url(r'^chalkboard', views.ChalkboardListView.as_view(), name='chalkboard'),
+    re_path(r'^chalkboard/owns', views.OwnChalkboardListView.as_view(), name='own_chalkboard'),
+    re_path(r'^chalkboard/joined', views.JoinedChalkboardListView.as_view(), name='joined_chalkboard'),
+    url(r'^chalkboard/public', views.PublicChalkboardListView.as_view(), name='public_chalkboard'),
     # TODO: notes has to be replaced by something like this ..
     # url(r'^chalkboards/(?P<pk>\d+)/$', views.notes, name='notes'),
     # ACCOUNTS

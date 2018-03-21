@@ -18,8 +18,12 @@ Chalkboards
   {% endif %}
 
   {% if 'chalkboard_update' in permissions %}
-    <p><a href="{% url 'update_chalkboard' chalkboard.id %}">Update</a></p>
+    <a data-toggle="modal" data-target="#modal" href="{% url 'update_chalkboard' chalkboard.id %}">Update</a>
   {% endif %}
+  {% if 'chalkboard_delete' in permissions %}
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirm_modal">Remove</button>
+  {% endif %}
+
   <p>Name : {{ chalkboard.name }}</p>
   <p>Description : {{ chalkboard.description }}</p>
 
@@ -36,8 +40,23 @@ Chalkboards
     </ul>
   </div>
 
-  {% if 'chalkboard_delete' in permissions %}
-    <a href="{% url 'delete_chalkboard' chalkboard.id %}">Remove</a>
-  {% endif %}
+  {% include 'confirmation_form.html' with route='delete_chalkboard' chalkboard=chalkboard title='Confirmation' message='Are you sure you want to remove this chalkboard?' button_confirm='Remove' %}
+  <div class="modal fade" id="modal"></div>
 
+{% endblock %}
+
+{% block javascript %}
+<script>
+$('#modal').on('show.bs.modal', function (event) {
+    var modal = $(this)
+    $.ajax({
+        url: "{% url 'update_chalkboard' chalkboard.id %}",
+        context: document.body
+    }).done(function(response) {
+        modal.html(response);
+    });
+});
+var form_options = { target: '#modal', success: function(response) {} };
+$('#news-create').ajaxForm(form_options);
+</script>
 {% endblock %}

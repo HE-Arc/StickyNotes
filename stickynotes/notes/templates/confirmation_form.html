@@ -1,0 +1,21 @@
+{% if user.is_authenticated %}
+<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <form method="POST" action="{% url route chalkboard.id %}" id="confirm-form" class="form">
+    {% csrf_token %}
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">{{ title }}</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{ message }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <input type="submit" class="btn btn-primary" value="{{ button_confirm }}" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endif %}

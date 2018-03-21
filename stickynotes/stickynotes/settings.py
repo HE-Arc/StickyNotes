@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'notes',
     'embed_video',
     'guardian',
-    'django_tables2'
+    'django_tables2',
+    'menu',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -98,6 +99,10 @@ TEMPLATES = [
         },
     },
 ]
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.request",
+)
 
 WSGI_APPLICATION = 'stickynotes.wsgi.application'
 
