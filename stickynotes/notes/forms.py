@@ -20,4 +20,4 @@ class VideoStickyNoteForm(forms.ModelForm):
 class ChalkboardForm(forms.ModelForm):
     class Meta:
         model = Chalkboard
-        exclude = ('user_created', 'group_permission')
+        exclude = ('user_created', 'group_permission', 'lookup')

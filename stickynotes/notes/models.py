@@ -7,7 +7,7 @@
 from django.db import models
 from django.conf import settings
 
-from enumfields import EnumField, Enum
+# from enumfields import EnumField, Enum
 from embed_video.fields import EmbedVideoField
 
 from django.db.models.signals import pre_delete
@@ -16,14 +16,16 @@ from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
 from guardian.models import UserObjectPermission
 from guardian.models import GroupObjectPermission
+from django.utils.text import slugify
+
 
 # Create your models here.
 class Chalkboard(models.Model):
     """ Chalkboard containing different types of notes """
     name = models.CharField(max_length=50, verbose_name='Name')
     description = models.TextField(max_length=500, verbose_name='Description')
-    is_private = models.BooleanField(default=False, verbose_name='Private')
-    is_active = models.BooleanField(default=True, verbose_name='Active')
+    is_private = models.BooleanField(default=0, verbose_name='Private')
+    is_active = models.BooleanField(default=0, verbose_name='Active')
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     user_created = models.ForeignKey(
@@ -48,6 +50,9 @@ class Chalkboard(models.Model):
             ('chalkboard_update', 'Update chalkboard'),
             ('chalkboard_delete', 'Delete chalkboard'),
         )
+
+    def slug(self):
+        return
 
     def __str__(self):
         return self.name
