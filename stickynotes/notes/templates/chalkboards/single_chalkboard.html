@@ -18,7 +18,7 @@ Chalkboards
   {% endif %}
 
   {% if 'chalkboard_update' in permissions %}
-    <a data-toggle="modal" data-target="#modal" href="{% url 'update_chalkboard' chalkboard.id %}">Update</a>
+    <a data-toggle="modal" data-target="#modal" class="btn btn-primary" href="{% url 'update_chalkboard' chalkboard.id %}">Update</a>
   {% endif %}
   {% if 'chalkboard_delete' in permissions %}
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirm_modal">Remove</button>
@@ -41,8 +41,9 @@ Chalkboards
   </div>
 
   {% include 'confirmation_form.html' with route='delete_chalkboard' chalkboard=chalkboard title='Confirmation' message='Are you sure you want to remove this chalkboard?' button_confirm='Remove' %}
-  <div class="modal fade" id="modal"></div>
 
+  {# modal windows for update chalkboard #}
+  <div class="modal fade" id="modal"></div>
 {% endblock %}
 
 {% block javascript %}
@@ -57,6 +58,6 @@ $('#modal').on('show.bs.modal', function (event) {
     });
 });
 var form_options = { target: '#modal', success: function(response) {} };
-$('#news-create').ajaxForm(form_options);
+$('#update_chalkboard').ajaxForm(form_options);
 </script>
 {% endblock %}
