@@ -80,6 +80,15 @@ class FavoriteChalkboards(models.Model):
         blank=False,
     )
 
+class StickyNoteType(Enum):
+    TEXT = 't'
+    IMAGE = 'i'
+    VIDEO = 'v'
+
+    class Labels:
+        TEXT = 'text'
+        IMAGE = 'image'
+        VIDEO = 'video'
 
 class StickyNote(models.Model):
     """ Contains the data created by the users """
@@ -95,6 +104,7 @@ class StickyNote(models.Model):
         null=False,
         blank=False,
     )
+    type = EnumField(StickyNoteType, max_length=1)
 
     def __str__(self):
         return "text"
