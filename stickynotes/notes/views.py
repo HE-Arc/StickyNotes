@@ -29,16 +29,6 @@ def home(request):
     return render(request, 'home.html')
 
 @login_required
-def my_profile_page(request):
-    user = {'user': request.user }
-    return render(request, 'profile.html', {'profile_user': user})
-
-@login_required
-def profile_page(request, username):
-    user = get_object_or_404(User, username=username)
-    return render(request, 'profile.html', {'profile_user': user})
-
-@login_required
 def notes(request):
     stickynotes = StickyNote.objects.filter()
     return render(request, 'notes/note.html', {'stickynotes' : stickynotes, 'type_stickynotes' : type_stickynotes})

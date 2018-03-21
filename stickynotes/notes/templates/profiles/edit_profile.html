@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Profile: {{ user }}</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-primary" value="Save changes" />
+  </form>
+</div>
+
+{% endblock %}
