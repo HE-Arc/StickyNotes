@@ -43,7 +43,7 @@ Chalkboards
   {% include 'confirmation_form.html' with route='delete_chalkboard' chalkboard=chalkboard title='Confirmation' message='Are you sure you want to remove this chalkboard?' button_confirm='Remove' %}
 
   {# modal windows for update chalkboard #}
-  <div class="modal fade" id="modal"></div>
+  <div class="modal" id="modal"></div>
 {% endblock %}
 
 {% block javascript %}
@@ -57,7 +57,5 @@ $('#modal').on('show.bs.modal', function (event) {
         modal.html(response);
     });
 });
-var form_options = { target: '#modal', success: function(response) {} };
-$('#update_chalkboard').ajaxForm(form_options);
 </script>
 {% endblock %}

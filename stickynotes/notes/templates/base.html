@@ -6,10 +6,6 @@
   <head>
     <meta charset="utf-8">
     <title>{% block title %}Sticky Notes{% endblock %}</title>
-    {# javascript #}
-    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
-    {% bootstrap_javascript %}
     {# Stylesheet #}
     <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
@@ -48,6 +44,8 @@
     </footer>
     {# javascript #}
     {# Load bootstrap JavaScript #}
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    {% bootstrap_javascript %}
     <script src="{% static 'js/app.js' %}"></script>
     {% block javascript %}
     {% endblock %}

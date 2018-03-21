@@ -18,7 +18,7 @@ Chalkboards
   {% include 'chalkboards/list_chalkboard.html' with chalkboards=chalkboards joined_chalkboards_id=joined_chalkboards_id chalkboard_title=chalkboard_title chalkboard_empty_message=chalkboard_empty_message %}
 
   {# modal windows for create chalkboard #}
-  <div class="modal fade" id="modal"></div>
+  <div class="modal" id="modal"></div>
 {% endblock %}
 
 {% block javascript %}
@@ -32,7 +32,5 @@ $('#modal').on('show.bs.modal', function (event) {
         modal.html(response);
     });
 });
-var form_options = { target: '#modal', success: function(response) {} };
-$('#create_chalkboard').ajaxForm(form_options);
 </script>
 {% endblock %}
