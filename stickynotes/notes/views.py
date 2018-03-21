@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 
-from notes.models import StickyNote, ImageStickyNote, VideoStickyNote, Chalkboard, JoinChalkboard
+from notes.models import StickyNote, ImageStickyNote, VideoStickyNote, Chalkboard, JoinChalkboard, StickyNoteType
 from notes.forms import StickyNoteForm, ImageStickyNoteForm, VideoStickyNoteForm, ChalkboardForm
 
 from guardian.shortcuts import assign_perm, get_perms, remove_perm, get_user_perms, get_objects_for_user
@@ -23,7 +23,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from guardian.utils import clean_orphan_obj_perms
 # Create your views here.
 # Global ??
-type_stickynotes = [StickyNote, ImageStickyNote, VideoStickyNote]
+type_stickynotes = [StickyNoteType.TEXT, StickyNoteType.IMAGE, StickyNoteType.VIDEO]
 
 
 
@@ -40,11 +40,11 @@ def notes(request): # TODO: has to be changed somehow to allow passing from CHLK
 def create_stickynotes(request, id_chalkboard, type_stickynote):
     chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
     form = None
-    if type_stickynote == "image":
+    if type_stickynote == StickyNoteType.IMAGE.label:
         form = ImageStickyNoteForm(request.POST or None)
-    elif type_stickynote == "video":
+    elif type_stickynote == StickyNoteType.VIDEO.label:
         form = VideoStickyNoteForm(request.POST or None)
-    elif type_stickynote == "text":
+    elif type_stickynote == StickyNoteType.TEXT.label:
         form = StickyNoteForm(request.POST or None)
     if form is None:
         raise Http404
@@ -52,6 +52,7 @@ def create_stickynotes(request, id_chalkboard, type_stickynote):
         save_it = form.save(commit=False)
         save_it.user_created = request.user
         save_it.chalkboard = chlk
+        save_it.type = type_stickynote
         save_it.save()
         return redirect('details_chalkboard', id_chalkboard)
     return render(request, 'notes/note_form.html', {'type_stickynote' : type_stickynote, 'form' : form})
@@ -69,7 +70,17 @@ def update_stickynotes(request, id_chalkboard, id_stickynote):
     elif request.user == stickynote.user_created and checker.has_perm('stickynote_update_all', chlk):
         can_update = True
     if can_update:
-        form = StickyNoteForm(request.POST or None, instance=stickynote)
+        form = None
+        if stickynote.type == StickyNoteType.IMAGE:
+            image_stickynotes = get_object_or_404(ImageStickyNote, stickynote_ptr_id=stickynote.id)
+            form = ImageStickyNoteForm(request.POST or None, instance=image_stickynotes)
+        elif stickynote.type == StickyNoteType.VIDEO:
+            video_stickynotes = get_object_or_404(VideoStickyNote, stickynote_ptr_id=stickynote.id)
+            form = VideoStickyNoteForm(request.POST or None, instance=video_stickynotes)
+        elif stickynote.type == StickyNoteType.TEXT:
+            form = StickyNoteForm(request.POST or None, instance=stickynote)
+        if form is None:
+            raise Http404
         if form.is_valid():
             form.save()
             messages.success(request, 'Update succes')

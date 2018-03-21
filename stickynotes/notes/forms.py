@@ -4,18 +4,17 @@ from notes.models import StickyNote, ImageStickyNote, VideoStickyNote, Chalkboar
 class StickyNoteForm(forms.ModelForm):
     class Meta:
         model = StickyNote
-        # fields = '__all__'
-        exclude = ('user_created', 'chalkboard')
+        fields = ('title', 'text_content', 'is_hidden')
 
 class ImageStickyNoteForm(forms.ModelForm):
     class Meta:
         model = ImageStickyNote
-        exclude = ('user_created', 'text_content', 'chalkboard')
+        fields = ('title', 'image_content', 'is_hidden')
 
 class VideoStickyNoteForm(forms.ModelForm):
     class Meta:
         model = VideoStickyNote
-        exclude = ('user_created', 'text_content', 'chalkboard')
+        fields = ('title', 'video_content', 'is_hidden')
 
 class ChalkboardForm(forms.ModelForm):
     class Meta:
