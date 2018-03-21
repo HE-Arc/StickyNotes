@@ -7,7 +7,7 @@
 from django.db import models
 from django.conf import settings
 
-# from enumfields import EnumField, Enum
+from enumfields import EnumField, Enum
 from embed_video.fields import EmbedVideoField
 
 from django.db.models.signals import pre_delete

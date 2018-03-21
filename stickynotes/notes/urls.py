@@ -27,6 +27,7 @@ urlpatterns = [
     # url(r'^chalkboards/(?P<pk>\d+)/$', views.notes, name='notes'),
     # ACCOUNTS
     # url(r'^(?P<username>[\w.@+-]+)/$', views.user_profile, name='user_profile'),
+    url(r'^profile/$', views.my_profile_page, name='my_profile_page'),
     url(r'^register/$', accounts_views.register, name='register'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),

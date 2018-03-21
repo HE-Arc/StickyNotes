@@ -1,7 +1,7 @@
 from menu import Menu, MenuItem
 from django.urls import reverse
 
-Menu.add_item("main", MenuItem("Profile", reverse('home'), weight=0, check=lambda request: request.user.is_authenticated))
+Menu.add_item("main", MenuItem("Profile", reverse('my_profile_page'), weight=0, check=lambda request: request.user.is_authenticated))
 Menu.add_item("main", MenuItem("Logout", reverse('logout'), weight=20, check=lambda request: request.user.is_authenticated))
 Menu.add_item("main", MenuItem("Register", reverse('register'), weight=20, check=lambda request: not request.user.is_authenticated))
 Menu.add_item("main", MenuItem("Login", reverse('login'), weight=30, check=lambda request: not request.user.is_authenticated))

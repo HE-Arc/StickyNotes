@@ -13,8 +13,8 @@
       {% endif %}
     {% endif %}
   </p>
-  {% empty %}
-    <p>
-      {{ chalkboard_empty_message }}
-    </p>
+{% empty %}
+  <p>
+    {{ chalkboard_empty_message }}
+  </p>
 {% endfor %}

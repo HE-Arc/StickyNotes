@@ -25,13 +25,21 @@ from guardian.utils import clean_orphan_obj_perms
 # Global ??
 type_stickynotes = [StickyNoteType.TEXT, StickyNoteType.IMAGE, StickyNoteType.VIDEO]
 
-
-
 def home(request):
     return render(request, 'home.html')
 
 @login_required
-def notes(request): # TODO: has to be changed somehow to allow passing from CHLK to NOTES
+def my_profile_page(request):
+    user = {'user': request.user }
+    return render(request, 'profile.html', {'profile_user': user})
+
+@login_required
+def profile_page(request, username):
+    user = get_object_or_404(User, username=username)
+    return render(request, 'profile.html', {'profile_user': user})
+
+@login_required
+def notes(request):
     stickynotes = StickyNote.objects.filter()
     return render(request, 'notes/note.html', {'stickynotes' : stickynotes, 'type_stickynotes' : type_stickynotes})
 
