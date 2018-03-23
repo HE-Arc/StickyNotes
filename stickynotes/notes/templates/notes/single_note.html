@@ -17,10 +17,10 @@
     <p> Date created : {{ stickynote.date_created }} </p>
     <p> Created by : {{ stickynote.user_created }} </p>
   </div>
-  {% if user.id == stickynote.user_created_id and 'stickynote_update_own' in permissions or user.id != stickynote.user_created_id and 'stickynote_update_all' in permissions %}
+  {% if user.id == stickynote.user_created_id and 'stickynote_update_own' in permissions or 'stickynote_update_all' in permissions %}
       <a href="{% url 'update_stickynotes' id_chalkboard stickynote.id %}">update</a>
   {% endif %}
-  {% if user.id == stickynote.user_created_id and 'stickynote_delete_own' in permissions or user.id != stickynote.user_created_id and 'stickynote_delete_all' in permissions %}
+  {% if user.id == stickynote.user_created_id and 'stickynote_delete_own' in permissions or 'stickynote_delete_all' in permissions %}
       <a href="{% url 'delete_stickynotes' id_chalkboard stickynote.id %}">remove</a>
   {% endif %}
 </li>

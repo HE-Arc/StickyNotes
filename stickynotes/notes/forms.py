@@ -20,3 +20,16 @@ class ChalkboardForm(forms.ModelForm):
     class Meta:
         model = Chalkboard
         exclude = ('user_created', 'group_permission')
+
+class PermissionForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        checkboxs = kwargs.pop('checkboxs')
+        super(PermissionForm, self).__init__(*args, **kwargs)
+
+        for i, key in enumerate(checkboxs.keys()):
+            value = checkboxs[key]
+            self.fields[key] = forms.BooleanField(required=False, initial=value)
+
+    def save(self):
+        return self.cleaned_data

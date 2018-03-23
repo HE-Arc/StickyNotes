@@ -13,8 +13,3 @@ class ImageStickyNoteAdmin(admin.ModelAdmin):
 class VideoStickyNoteAdmin(admin.ModelAdmin):
     class Meta:
         model = VideoStickyNote
-
-admin.site.register(StickyNote, StickyNoteAdmin)
-admin.site.register(ImageStickyNote, ImageStickyNoteAdmin)
-admin.site.register(VideoStickyNote, VideoStickyNoteAdmin)
-admin.site.register(Chalkboard)

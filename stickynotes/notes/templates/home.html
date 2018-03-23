@@ -11,9 +11,9 @@ Home
 {% endblock %}
 
 {% block content %}
-  <!-- AUTHENTIFIED -->
-  <div>
     {% if user.is_authenticated %}
+    <!-- AUTHENTIFIED -->
+    <div>
       <h2>Hi {{ user.username }}!</h2>
     <!-- TODO: list chlks created by me -->
 

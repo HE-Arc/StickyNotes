@@ -14,14 +14,14 @@ Chalkboards
   {# Get all permissions user #}
   {% get_obj_perms user for chalkboard as "permissions" %}
   {% if 'chalkboard_manage_permission_user' in permissions %}
-    <a href="#">Manage permissions user</a>
+    <a href="{% url 'permission_chalkboard' chalkboard.id %}">Manage permissions user</a>
   {% endif %}
 
   {% if 'chalkboard_update' in permissions %}
     <a data-toggle="modal" data-target="#modal" class="btn btn-primary" href="{% url 'update_chalkboard' chalkboard.id %}">Update</a>
   {% endif %}
   {% if 'chalkboard_delete' in permissions %}
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirm_modal">Remove</button>
+    <a data-toggle="modal" data-target="#confirm_modal" class="btn btn-primary" href="{% url 'delete_chalkboard' chalkboard.id %}">Remove</a>
   {% endif %}
 
   <p>Name : {{ chalkboard.name }}</p>

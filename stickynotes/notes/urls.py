@@ -8,6 +8,12 @@ from accounts import views as accounts_views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^notes', views.notes, name='view_notes'),
+
+    path('chalkboard/<int:id_chalkboard>/manage/permissions/users/<int:id_user>/update', views.update_user_permissions, name='update_user_permissions'),
+    path('chalkboard/<int:id_chalkboard>/manage/permissions/users/<int:id_user>/permissions', views.manage_user_permissions, name='manage_user_permissions'),
+    path('chalkboard/<int:id_chalkboard>/manage/permissions/users/remove/user/<int:id_user>', views.remove_user_chalkboard, name='remove_user_chalkboard'),
+    path('chalkboard/<int:id_chalkboard>/manage/permissions/users', views.manage_chalkboard_user_permission, name='permission_chalkboard'),
+
     # NOTES CRUD
     path('chalkboard/<int:id_chalkboard>/notes/create/<str:type_stickynote>', views.create_stickynotes, name='create_stickynotes'),
     path('chalkboard/<int:id_chalkboard>/notes/delete/<int:id_stickynote>', views.delete_stickynotes, name='delete_stickynotes'),
@@ -22,7 +28,8 @@ urlpatterns = [
     re_path(r'^chalkboard/(?P<pk>\d+)', views.ChalkboardDetailView.as_view(), name='details_chalkboard'),
     re_path(r'^chalkboard/owns', views.OwnChalkboardListView.as_view(), name='own_chalkboard'),
     re_path(r'^chalkboard/joined', views.JoinedChalkboardListView.as_view(), name='joined_chalkboard'),
-    url(r'^chalkboard/public', views.PublicChalkboardListView.as_view(), name='public_chalkboard'),
+    re_path(r'^chalkboard/public', views.PublicChalkboardListView.as_view(), name='public_chalkboard'),
+
     # TODO: notes has to be replaced by something like this ..
     # url(r'^chalkboards/(?P<pk>\d+)/$', views.notes, name='notes'),
     # ACCOUNTS

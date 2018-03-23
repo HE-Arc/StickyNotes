@@ -9,20 +9,26 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 
 from notes.models import StickyNote, ImageStickyNote, VideoStickyNote, Chalkboard, JoinChalkboard, StickyNoteType
-from notes.forms import StickyNoteForm, ImageStickyNoteForm, VideoStickyNoteForm, ChalkboardForm
+from notes.forms import StickyNoteForm, ImageStickyNoteForm, VideoStickyNoteForm, ChalkboardForm, PermissionForm
 
-from guardian.shortcuts import assign_perm, get_perms, remove_perm, get_user_perms, get_objects_for_user
+from guardian.shortcuts import assign_perm, get_perms, get_perms_for_model, remove_perm, get_user_perms, get_objects_for_user
 from guardian.core import ObjectPermissionChecker
 from guardian.decorators import permission_required_or_403
+from guardian.utils import clean_orphan_obj_perms
+from guardian.models import UserObjectPermission
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from guardian.utils import clean_orphan_obj_perms
+
+from django_tables2 import RequestConfig
+from .tables import UserJoinTable
+from django_tables2.columns import Column
+
 # Create your views here.
-# Global ??
 type_stickynotes = [StickyNoteType.TEXT, StickyNoteType.IMAGE, StickyNoteType.VIDEO]
 
 def home(request):
@@ -63,9 +69,7 @@ def update_stickynotes(request, id_chalkboard, id_stickynote):
     can_update = False
     if request.user == stickynote.user_created and checker.has_perm('stickynote_update_own', chlk):
         can_update = True
-    elif request.user != stickynote.user_created and checker.has_perm('stickynote_update_all', chlk):
-        can_update = True
-    elif request.user == stickynote.user_created and checker.has_perm('stickynote_update_all', chlk):
+    elif checker.has_perm('stickynote_update_all', chlk):
         can_update = True
     if can_update:
         form = None
@@ -96,9 +100,7 @@ def delete_stickynotes(request, id_chalkboard, id_stickynote):
     can_delete = False
     if request.user == stickynote.user_created and checker.has_perm('stickynote_delete_own', chlk):
         can_delete = True
-    elif request.user != stickynote.user_created and checker.has_perm('stickynote_delete_all', chlk):
-        can_delete = True
-    elif request.user == stickynote.user_created and checker.has_perm('stickynote_delete_own', chlk):
+    elif checker.has_perm('stickynote_delete_all', chlk):
         can_delete = True
     if can_delete:
         stickynote.delete()
@@ -110,6 +112,8 @@ def delete_stickynotes(request, id_chalkboard, id_stickynote):
 @login_required
 def join_chalkboard(request, id_chalkboard):
     chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    if chlk.is_private:
+        print("PRIVATE")
 
     # TODO check if chalkboard not private
 
@@ -121,14 +125,103 @@ def join_chalkboard(request, id_chalkboard):
 @login_required
 def leave_chalkboard(request, id_chalkboard):
     chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
-    for perm in get_user_perms(request.user, chlk):
-        remove_perm(perm, request.user, chlk)
-    JoinChalkboard.objects.filter(chalkboard=chlk, user=request.user).delete()
+    user_join = JoinChalkboard.objects.get(chalkboard=chlk, user_id=request.user)
+    if user_join:
+        user_join.delete()
     return redirect('own_chalkboard')
 
-#    @method_decorator(permission_required_or_403('notes.stickynote_update_own', (Chalkboard, 'id', 'pk')))
-#    def dispatch(self, *args, **kwargs):
-#        return super(ChalkboardUpdateView, self).dispatch(*args, **kwargs)
+
+@login_required
+def manage_chalkboard_user_permission(request, id_chalkboard):
+    chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    if check_permissions(request.user, chlk, ['chalkboard_manage_permission_user']):
+        user_joined_ids = JoinChalkboard.objects.filter(chalkboard=chlk).values_list('user_id', flat=True)
+        users = get_user_model().objects.filter(id__in=user_joined_ids)
+        for user in users:
+            user.remove_column = [reverse('remove_user_chalkboard', kwargs={'id_chalkboard': chlk.id, 'id_user': user.id}), 'delete.png']
+            user.perm_column = [reverse('manage_user_permissions', kwargs={'id_chalkboard': chlk.id, 'id_user': user.id}), 'manage']
+        users_table = UserJoinTable(data=users)
+        RequestConfig(request, paginate={'per_page': 10}).configure(users_table)
+        return render(request, 'permissions/permission_chalkboard.html', {'users_table': users_table, 'chalkboard': chlk})
+    return redirect('details_chalkboard', id_chalkboard)
+
+@login_required
+def manage_user_permissions(request, id_chalkboard, id_user):
+    chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    if check_permissions(request.user, chlk, ['chalkboard_manage_permission_user']):
+        user_join = JoinChalkboard.objects.get(chalkboard=chlk, user_id=id_user)
+        user = get_user_model().objects.get(id=id_user)
+        if not user_join:
+            return redirect('permission_chalkboard', id_chalkboard)
+        else:
+            user = get_user_model().objects.get(id=id_user)
+            permissions_rows = dict()
+            permissions_user = dict()
+            # get all permissions chalkboard
+            for perm in get_perms_for_model(Chalkboard):
+                permissions_rows[perm.codename] = perm.name
+                permissions_user[perm.codename] = False # default false permission
+            for perm in get_user_perms(user, chlk):
+                permissions_user[perm] = True
+            form = PermissionForm(request.POST or None, checkboxs=permissions_user)
+            if form.is_valid():
+                permissions_datas = form.save()
+
+                for codename, value in permissions_datas.items():
+                    has_perm = check_permissions(user, chlk, [codename])
+                    if value:
+                        if not has_perm:
+                            assign_permission(codename, user, chlk)
+                    else:
+                        if has_perm:
+                            remove_perm(codename, user, chlk)
+                messages.success(request, 'Permissions saved.')
+        return render(request, 'permissions/permissions_user_chalkboard.html', {'user_id' : id_user, 'chalkboard': chlk, 'permissions_rows': permissions_rows, 'form': form})
+    return redirect('permission_chalkboard', id_chalkboard)
+
+@login_required
+def update_user_permissions(request, id_chalkboard, id_user):
+    chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    if check_permissions(request.user, chlk, ['chalkboard_manage_permission_user']):
+        user_join = JoinChalkboard.objects.get(chalkboard=chlk, user_id=id_user)
+        user = get_user_model().objects.get(id=id_user)
+        if not user_join:
+            return redirect('permission_chalkboard', id_chalkboard)
+        else:
+            user = get_user_model().objects.get(id=id_user)
+            permissions_rows = dict()
+            permissions_user = dict()
+            # get all permissions chalkboard
+            for perm in get_perms_for_model(Chalkboard):
+                permissions_rows[perm.codename] = perm.name
+                permissions_user[perm.codename] = False # default false permission
+            for perm in get_user_perms(user, chlk):
+                permissions_user[perm] = True
+            form = PermissionForm(request.POST or None, checkboxs=permissions_user)
+        return render(request, 'permissions/permissions_user_chalkboard.html', {'permissions_rows': permissions_rows, 'form': form})
+    return redirect('details_chalkboard', id_chalkboard)
+
+@login_required
+def remove_user_chalkboard(request, id_chalkboard, id_user):
+    chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    if check_permissions(request.user, chlk, ['chalkboard_manage_permission_user']):
+        user_join = JoinChalkboard.objects.filter(chalkboard=chlk, user_id=id_user)
+        if not user_join:
+            messages.warning(request, 'This user does not exist.')
+        else:
+            user_join.delete()
+            messages.success(request, 'This user has been delete from the chalkboard.')
+        return redirect('permission_chalkboard', id_chalkboard)
+    return redirect('details_chalkboard', id_chalkboard)
+
+def check_permissions(user, object, permissions):
+    checker = ObjectPermissionChecker(user)
+    perm = True
+    for perm in permissions:
+        if not checker.has_perm(perm, object):
+            return False
+    return perm
+
 
 class OwnChalkboardListView(LoginRequiredMixin, ListView):
 
