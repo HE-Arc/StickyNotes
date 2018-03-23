@@ -31,3 +31,4 @@ capistranoscript\.lock
 *.rb
 
 migrations/
+*.env\.default

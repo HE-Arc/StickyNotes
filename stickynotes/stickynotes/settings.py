@@ -29,7 +29,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []  # https://stickynotes.srvz-webapp.he-arc.ch
 
 # Guardian settings
 GUARDIAN_RAISE_403 = True

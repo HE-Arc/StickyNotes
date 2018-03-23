@@ -35,7 +35,7 @@ def home(request):
     return render(request, 'home.html')
 
 @login_required
-def notes(request): # TODO: has to be changed somehow to allow passing from CHLK to NOTES
+def notes(request):
     stickynotes = StickyNote.objects.filter()
     return render(request, 'notes/note.html', {'stickynotes' : stickynotes, 'type_stickynotes' : type_stickynotes})
 
@@ -234,7 +234,7 @@ class OwnChalkboardListView(LoginRequiredMixin, ListView):
         context['chalkboards'] = Chalkboard.objects.filter(user_created=self.request.user)
         context['joined_chalkboards_id'] = JoinChalkboard.objects.filter(user=self.request.user).values_list('chalkboard_id', flat=True)
         context['chalkboard_title'] = 'My chalkboards'
-        context['chalkboard_empty_message'] = 'You don\'t have chalkboard !'
+        context['chalkboard_empty_message'] = 'You don\'t have a chalkboard yet! \nGo ahead and create one!'
         return context
 
 class JoinedChalkboardListView(LoginRequiredMixin, ListView):
@@ -249,7 +249,7 @@ class JoinedChalkboardListView(LoginRequiredMixin, ListView):
         context['chalkboards'] = Chalkboard.objects.filter(id__in=join_chlks_id)
         context['joined_chalkboards_id'] = join_chlks_id
         context['chalkboard_title'] = 'Joined chalkboards'
-        context['chalkboard_empty_message'] = 'You don\'t have chalkboard !'
+        context['chalkboard_empty_message'] = 'You didn\'t join a chalkboard yet! Browse through the Public Chalkboards list to find some!'
         return context
 
 class PublicChalkboardListView(LoginRequiredMixin, ListView):
@@ -263,7 +263,7 @@ class PublicChalkboardListView(LoginRequiredMixin, ListView):
         context['chalkboards'] = Chalkboard.objects.exclude(user_created=self.request.user).filter(is_private=False, is_active=True)
         context['joined_chalkboards_id'] = JoinChalkboard.objects.filter(user=self.request.user).values_list('chalkboard_id', flat=True)
         context['chalkboard_title'] = 'Public chalkboards'
-        context['chalkboard_empty_message'] = 'You don\'t have chalkboard !'
+        context['chalkboard_empty_message'] = 'Hehe you\'re the first person here! Congrats! Go ahead and create a new Chalkboard!'
         return context
 
 class ChalkboardDetailView(LoginRequiredMixin, DetailView):
