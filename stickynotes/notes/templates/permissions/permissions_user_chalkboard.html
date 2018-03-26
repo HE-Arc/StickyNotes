@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load guardian_tags %}
+{% load bootstrap4 %}
+
+{% block title %}
+Home
+{% endblock %}
+
+<!-- BREADCRUMB -->
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Permissions users</li>
+{% endblock %}
+
+{% block content %}
+  <h3>User permission</h3>
+  <form method="POST" class="form">
+  {% csrf_token %}
+    <table>
+      <thead>
+        <tr>
+          <th>Permission</th>
+          <th>Description</th>
+          <th>On/Off</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for codename, value in permissions_rows.items %}
+          <tr>
+            <td>
+             {{ codename }}
+            </td>
+            <td>
+              {{ value }}
+            </td>
+            <td align="center">
+              {# c'est très moche surement meilleure solution, mais en attendant #}
+              {% for field in form %}
+                {% if field.name == codename %}
+                  {{ field }}
+                {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="3" align="right">
+            <input type="submit" value="Save" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+{% endblock %}

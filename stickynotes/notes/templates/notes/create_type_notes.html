@@ -1,0 +1,12 @@
+{% load static %}
+<div class="note_type">
+  <ul style="display: table;">
+    {% for type_stickynote in type_stickynotes %}
+      <li style="vertical-align: middle; display: table-cell; padding: 1em;">
+        <a href="{% url 'create_stickynotes' id_chalkboard type_stickynote %}" title="Create new stickynotes {{ type_stickynote }}"><img src="{% get_static_prefix %}images/stickynotes/add_{{ type_stickynote }}.png" alt="Add StickyNote {{ type_stickynote }}" /></a>
+      </li>
+    {% empty %}
+      <li>No type found!</li>
+    {% endfor %}
+  </ul>
+</div>

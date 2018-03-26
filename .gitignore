@@ -21,3 +21,14 @@ Include
 /pyvenv.cfg
 /pip-selfcheck.json
 /stickynotes/stickynotes/.env
+
+Capfile
+
+capistranoscript
+
+capistranoscript\.lock
+
+*.rb
+
+migrations/
+*.env\.default

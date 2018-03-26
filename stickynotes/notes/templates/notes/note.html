@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}
+Post-it
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">StickyNotes</li>
+{% endblock %}
+
+{% block content %}
+
+  {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=1 %}
+
+  <!-- modal window for add stickynote -->
+  <div class="modal fade" id="modal"></div>
+
+  <ul>
+    {% for stickynote in stickynotes.all %}
+      {% include 'notes/single_note.html' with stickynote=stickynote %}
+      {% empty %}
+      <li>No stickynote</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
+
+{% block javascript %}
+  <script>
+  </script>
+{% endblock %}
