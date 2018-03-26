@@ -7,7 +7,7 @@ Chalkboards
 {% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item active">Chalkboards</li>
+  <li class="breadcrumb-item active">Chalkboards - {{ chalkboard.name }} - {{ chalkboard.description }}</li>
 {% endblock %}
 
 {% block content %}
@@ -23,9 +23,6 @@ Chalkboards
   {% if 'chalkboard_delete' in permissions %}
     <a data-toggle="modal" data-target="#confirm_modal" class="btn btn-primary" href="{% url 'delete_chalkboard' chalkboard.id %}">Remove</a>
   {% endif %}
-
-  <p>Name : {{ chalkboard.name }}</p>
-  <p>Description : {{ chalkboard.description }}</p>
 
   {% if 'stickynote_create_own' in permissions %}
     {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chalkboard.id %}

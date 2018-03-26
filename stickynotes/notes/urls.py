@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^notes', views.notes, name='view_notes'),
 
-    path('chalkboard/<int:id_chalkboard>/manage/permissions/users/<int:id_user>/update', views.update_user_permissions, name='update_user_permissions'),
     path('chalkboard/<int:id_chalkboard>/manage/permissions/users/<int:id_user>/permissions', views.manage_user_permissions, name='manage_user_permissions'),
     path('chalkboard/<int:id_chalkboard>/manage/permissions/users/remove/user/<int:id_user>', views.remove_user_chalkboard, name='remove_user_chalkboard'),
     path('chalkboard/<int:id_chalkboard>/manage/permissions/users', views.manage_chalkboard_user_permission, name='permission_chalkboard'),
