@@ -14,18 +14,29 @@ Home
     {% if user.is_authenticated %}
     <!-- AUTHENTIFIED -->
     <div>
-      <h2>Hi {{ user.username }}!</h2>
+      <h1>Hi and welcome back {{ user.username }}!</h1>
     <!-- TODO: list chlks created by me -->
 
-    <!-- TODO: list chlks favorites -->
+    <!-- TODO: list joined favorites -->
 
-    <!-- TODO: NOT AUTHENTIFIED -->
+    <!-- NOT AUTHENTIFIED -->
     {% else %}
     <h1>Welcome to Sticky Notes !</h1>
+    <p>Pin your links at one place !</p>
 
-    <p>This application ... </p>
+    <h2>Concept</h2>
+    <p>
+      Sticky Notes's allows you to create/join a <i>private</i> or a <i>public</i> Chalkboard and to post:
+      <ul>
+        <li><b>Texts</b></li>
+        <li><b>Images</b></li>
+        <li><b>Videos</b> and <b>Music</b> * </li>
+    </ul>
 
-    <p>Feel free to try it ! </p>
+    </p>
+
+    <p><a href="{% url 'register' %}" >Feel free to try it ! </a></p>
+    <p>* supported links : Youtube, Vimeo, Soundlcoud</p>
   </div>
   {% endif %}
 {% endblock %}
