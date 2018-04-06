@@ -1,7 +1,7 @@
 # https://wsvincent.com/django-user-authentication-tutorial-signup/
 # https://simpleisbetterthancomplex.com/series/2017/09/25/a-complete-beginners-guide-to-django-part-4.html
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserChangeForm
@@ -20,7 +20,7 @@ def register(request):
             form = RegisterForm(request.POST)
             if form.is_valid():
                 user = form.save()
-                auth_login(request, user)
+                authenticate(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return redirect('home')
         else:
             form = RegisterForm()
