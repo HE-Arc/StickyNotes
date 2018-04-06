@@ -10,7 +10,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Create new virtualvenv : `python -m venv .`
 - Active virtualvenv : `Scripts\activate.bat`
 - Install python package : `pip install -r requirements.txt`
-- ... (soon)
 
 ### Linux
 - Open new console
@@ -19,7 +18,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Create new virtualvenv : `python -m venv .`
 - Active virtualvenv : `source bin/activate`
 - Install python package : `pip install -r requirements.txt`
-- ... (soon)
 
 #### Requirements
 - libmysqlclient-dev
@@ -29,7 +27,6 @@ Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 - Copy or rename file **stickynotes/stickynotes/.env.default** to **.env**
 - Open file **.env** with text editor
 - Configure variable with your data
-- ...
 
 ## Step 3 - Migration
 - Go to **.\StickyNotes\stickynotes**
