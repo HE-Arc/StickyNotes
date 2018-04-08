@@ -1,35 +1,59 @@
 # StickyNotes
 Application qui permet d'ajouter des post-its sur un chalkboard partagé.
 
-# Installation guide
-## Step 1 - Initialisation
+# Guide d'installation
+## Étape 1 - Initialisation
 ### Windows
-- Open new console (cmd.exe)
-- Clone project : `git clone https://github.com/HE-Arc/StickyNotes.git`
-- Go to the folder StickyNotes : `cd StickyNotes`
-- Create new virtualvenv : `python -m venv .`
-- Active virtualvenv : `Scripts\activate.bat`
-- Install python package : `pip install -r requirements.txt`
+- Ouvrir un nouveau terminal (cmd.exe)
+- Cloner le projet : `git clone https://github.com/HE-Arc/StickyNotes.git`
+- Aller dans le dossier StickyNotes : `cd StickyNotes`
+- Créer un nouvel environnement virtuel avec virtualvenv : `python -m venv .`
+- Activer virtualvenv : `Scripts\activate.bat`
+- Installer le package python : `pip install -r requirements.txt`
 
 ### Linux
-- Open new console
-- Clone project : `git clone https://github.com/HE-Arc/StickyNotes.git`
-- Go to the folder StickyNotes : `cd StickyNotes`
-- Create new virtualvenv : `python -m venv .`
-- Active virtualvenv : `source bin/activate`
-- Install python package : `pip install -r requirements.txt`
+- Ouvrir un nouveau terminal
+- Cloner le projet : `git clone https://github.com/HE-Arc/StickyNotes.git`
+- Aller dans le dossier StickyNotes : `cd StickyNotes`
+- Créer un nouvel environnement virtuel avec virtualvenv : `python -m venv .`
+- Activer virtualvenv : `source bin/activate`
+- Installer le package python : `pip install -r requirements.txt`
 
-#### Requirements
+#### Requirements dans la présente version
 - libmysqlclient-dev
-- ....
+- bcrypt==3.1.4
+- certifi==2018.1.18
+- cffi==1.11.4
+- chardet==3.0.4
+- Django==2.0.2
+- django-bootstrap4==0.0.6
+- django-crispy-forms==1.7.0
+- django-embed-video==1.1.2
+- django-enumfields==0.9.0
+- django-environ==0.4.4
+- django-guardian==1.4.9
+- django-simple-menu==1.2.1
+- django-tables2==1.21.1
+- django-widget-tweaks==1.4.1
+- flake8==3.5.0
+- idna==2.6
+- mccabe==0.6.1
+- mysqlclient==1.3.12
+- pycodestyle==2.3.1
+- pycparser==2.18
+- pyflakes==1.6.0
+- pytz==2018.3
+- requests==2.18.4
+- six==1.11.0
+- urllib3==1.22
 
-## Step 2 - Configuration
-- Copy or rename file **stickynotes/stickynotes/.env.default** to **.env**
-- Open file **.env** with text editor
-- Configure variable with your data
+## Étape 2 - Configuration
+- Copier ou renommer le fichier **stickynotes/stickynotes/.env.default** en **.env**
+- Ouvrir **.env** avec un éditeur de texte
+- Configurer les variables avec vos données (notamment les informations de la base de données)
 
-## Step 3 - Migration
-- Go to **.\StickyNotes\stickynotes**
-- Make migration : `python manage.py makemigrations`
-- Migrate : `python manage.py migrate`
-- Run server : `python manage.py runserver`
+## Étape 3 - Migration
+- Aller **.\StickyNotes\stickynotes**
+- Préparer la migration : `python manage.py makemigrations`
+- Appliquer la migration : `python manage.py migrate`
+- Lancer le serveur server : `python manage.py runserver`
