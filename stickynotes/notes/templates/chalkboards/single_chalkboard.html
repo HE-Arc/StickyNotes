@@ -7,26 +7,24 @@ Chalkboards
 {% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item active">Chalkboards</li>
+  <li class="breadcrumb-item active">Chalkboards - {{ chalkboard.name }} - {{ chalkboard.description }}</li>
 {% endblock %}
 
 {% block content %}
   {# Get all permissions user #}
   {% get_obj_perms user for chalkboard as "permissions" %}
-  {% if 'chalkboard_manage_permission_user' in permissions %}
-    <a href="{% url 'permission_chalkboard' chalkboard.id %}">Manage permissions user</a>
-  {% endif %}
+  <div style="float: right;">
+    {% if 'chalkboard_manage_permission_user' in permissions %}
+      <a class="btn btn-primary" href="{% url 'permission_chalkboard' chalkboard.id %}">Permissions user</a>
+    {% endif %}
 
-  {% if 'chalkboard_update' in permissions %}
-    <a data-toggle="modal" data-target="#modal" class="btn btn-primary" href="{% url 'update_chalkboard' chalkboard.id %}">Update</a>
-  {% endif %}
-  {% if 'chalkboard_delete' in permissions %}
-    <a data-toggle="modal" data-target="#confirm_modal" class="btn btn-primary" href="{% url 'delete_chalkboard' chalkboard.id %}">Remove</a>
-  {% endif %}
-
-  <p>Name : {{ chalkboard.name }}</p>
-  <p>Description : {{ chalkboard.description }}</p>
-
+    {% if 'chalkboard_update' in permissions %}
+      <a data-toggle="modal" data-target="#modal" class="btn btn-primary" href="{% url 'update_chalkboard' chalkboard.id %}">Update</a>
+    {% endif %}
+    {% if 'chalkboard_delete' in permissions %}
+      <a data-toggle="modal" data-target="#confirm_modal" class="btn btn-primary" href="{% url 'delete_chalkboard' chalkboard.id %}">Remove</a>
+    {% endif %}
+  </div>
   {% if 'stickynote_create_own' in permissions %}
     {% include 'notes/create_type_notes.html' with type_stickynotes=type_stickynotes id_chalkboard=chalkboard.id %}
   {% endif %}
