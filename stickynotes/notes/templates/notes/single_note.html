@@ -1,6 +1,15 @@
 <!-- Display notes -->
+{% load static %}
 <li>
-  <div class="postit_link">
+  <div class="snote">
+    <p class="note_header">
+      {% if user.id == stickynote.user_created_id and 'stickynote_update_own' in permissions or 'stickynote_update_all' in permissions %}
+          <a href="{% url 'update_stickynotes' id_chalkboard stickynote.id %}" class="button_update"><img src="{% static 'images/stickynotes/edit.png' %}" alt="Update stickynotes" /></a>
+      {% endif %}
+      {% if user.id == stickynote.user_created_id and 'stickynote_delete_own' in permissions or 'stickynote_delete_all' in permissions %}
+        <a href="{% url 'delete_stickynotes' id_chalkboard stickynote.id %}" class="button_remove"><img src="{% static 'images/stickynotes/delete.png' %}" alt="Remove stickynote"/></a>
+      {% endif %}
+    </p>
     <h2>{{ stickynote.title }}</h2><hr/>
     <p>
       {% if stickynote.imagestickynote %}
@@ -17,10 +26,4 @@
     <p> Date created : {{ stickynote.date_created }} </p>
     <p> Created by : {{ stickynote.user_created }} </p>
   </div>
-  {% if user.id == stickynote.user_created_id and 'stickynote_update_own' in permissions or 'stickynote_update_all' in permissions %}
-      <a href="{% url 'update_stickynotes' id_chalkboard stickynote.id %}">update</a>
-  {% endif %}
-  {% if user.id == stickynote.user_created_id and 'stickynote_delete_own' in permissions or 'stickynote_delete_all' in permissions %}
-      <a href="{% url 'delete_stickynotes' id_chalkboard stickynote.id %}">remove</a>
-  {% endif %}
 </li>

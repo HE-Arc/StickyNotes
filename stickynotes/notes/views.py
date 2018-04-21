@@ -33,7 +33,9 @@ from django_tables2.columns import Column
 type_stickynotes = [StickyNoteType.TEXT, StickyNoteType.IMAGE, StickyNoteType.VIDEO]
 
 def home(request):
-    return render(request, 'home.html')
+    chalkboards = Chalkboard.objects.filter()
+    stickynotes = StickyNote.objects.filter()[:5]
+    return render(request, 'home.html', {'chalkboards': chalkboards, 'stickynotes': stickynotes})
 
 @login_required
 def notes(request):
@@ -113,11 +115,14 @@ def delete_stickynotes(request, id_chalkboard, id_stickynote):
 @login_required
 def join_chalkboard(request, id_chalkboard):
     chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
+    try:
+        user_join = JoinChalkboard.objects.get(chalkboard=chlk, user_id=request.user)
+    except:
+        user_join = None
+    if chlk.is_private and not user_join:
+        return redirect('own_chalkboard')
     if chlk.is_private:
-        print("PRIVATE")
-
-    # TODO check if chalkboard not private
-
+        return redirect('details_chalkboard', id_chalkboard)
     # default permision (CRUD own notes)
     assign_default_permission_join_chalkboard(request.user, chlk)
     JoinChalkboard.objects.create(chalkboard=chlk, user=request.user)

@@ -62,8 +62,8 @@ EMBED_VIDEO_BACKENDS = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', # this is default
     'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend', # this is default
 )
 
 MIDDLEWARE = [

@@ -6,6 +6,11 @@
   <head>
     <meta charset="utf-8">
     <title>{% block title %}Sticky Notes{% endblock %}</title>
+    {# javascript #}
+    {# Load bootstrap JavaScript #}
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    {% bootstrap_javascript %}
+    <script src="{% static 'js/app.js' %}"></script>
     {# Stylesheet #}
     <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
@@ -42,11 +47,6 @@
     <footer class="footer-copyright py-3 text-center">
       <p class="page-footer font-small stylish-color-dark pt-4 mt-4">© 2018: StickyNotes, <a href="https://he-arc.ch"><strong>HE-ARC</strong></a></p>
     </footer>
-    {# javascript #}
-    {# Load bootstrap JavaScript #}
-    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    {% bootstrap_javascript %}
-    <script src="{% static 'js/app.js' %}"></script>
     {% block javascript %}
     {% endblock %}
   </body>

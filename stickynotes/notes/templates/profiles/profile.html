@@ -15,6 +15,9 @@ Profile
 <div class="container">
   <h1>{{ user }}</h1>
   <p>{{ user.email }}</p>
+
+  <p><a href="{% url 'edit_profile' %}">Edit profile informations</a></p>
+  <p><a href="{% url 'password_reset' %}">Reset password</a></p>
 </div>
 
 {% endblock %}
