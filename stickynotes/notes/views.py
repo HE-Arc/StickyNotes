@@ -113,10 +113,13 @@ def delete_stickynotes(request, id_chalkboard, id_stickynote):
 @login_required
 def join_chalkboard(request, id_chalkboard):
     chlk = get_object_or_404(Chalkboard, id=id_chalkboard)
-    user_join = JoinChalkboard.objects.get(chalkboard=chlk, user_id=request.user)
+    try:
+        user_join = JoinChalkboard.objects.get(chalkboard=chlk, user_id=request.user)
+    except:
+        user_join = None
     if chlk.is_private and not user_join:
         return redirect('own_chalkboard')
-    elif chlk.is_private:
+    if chlk.is_private:
         return redirect('details_chalkboard', id_chalkboard)
     # default permision (CRUD own notes)
     assign_default_permission_join_chalkboard(request.user, chlk)
