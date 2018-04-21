@@ -33,7 +33,9 @@ from django_tables2.columns import Column
 type_stickynotes = [StickyNoteType.TEXT, StickyNoteType.IMAGE, StickyNoteType.VIDEO]
 
 def home(request):
-    return render(request, 'home.html')
+    chalkboards = Chalkboard.objects.filter()
+    stickynotes = StickyNote.objects.filter()[:5]
+    return render(request, 'home.html', {'chalkboards': chalkboards, 'stickynotes': stickynotes})
 
 @login_required
 def notes(request):

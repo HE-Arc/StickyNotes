@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block title %}
 Home
@@ -15,10 +16,43 @@ Home
     <!-- AUTHENTIFIED -->
     <div>
       <h1>Hi and welcome back {{ user.username }}!</h1>
-    <!-- TODO: list chlks created by me -->
+      <!-- Owned chlks -->
+      <h2>My Chalkboards</h2>
+        {% for chalkboard in chalkboards %}
+          {% if chalkboard.user_created == user %}
+            <p>
+              Chalkboard name : <a href="{% url 'details_chalkboard' chalkboard.id %}" >{{ chalkboard.name }}</a><br>
+              Description : {{ chalkboard.description }}<br>
+            </p>
+          {% endif %}
+          {% if chalkboard.user_created != user %}
+            <p>
+              You don't have any chalkboard!
+            </p>
+            {% endif %}
+        {% endfor %}
 
-    <!-- TODO: list joined favorites -->
-
+    <!-- Last posts -->
+      <h1>Last notes</h1>
+      {% for stickynote in stickynotes %}
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">{{ stickynote.title }}</h3>
+          <p>
+            {% if stickynote.imagestickynote %}
+              <img class="image_stickynotes" src="{{ stickynote.imagestickynote.image_content }}">
+            {% elif stickynote.videostickynote %}
+              {% load embed_video_tags %}
+                {% video stickynote.videostickynote.video_content as my_video %}
+                  {% video my_video '95%x95%' %}
+              {% endvideo %}
+            {% else %}
+              {{ stickynote.text_content }}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
     <!-- NOT AUTHENTIFIED -->
     {% else %}
     <h1>Welcome to Sticky Notes !</h1>
