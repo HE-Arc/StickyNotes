@@ -25,11 +25,10 @@ Home
               Description : {{ chalkboard.description }}<br>
             </p>
           {% endif %}
-          {% if chalkboard.user_created != user %}
+          {% empty %}
             <p>
               You don't have any chalkboard!
             </p>
-            {% endif %}
         {% endfor %}
 
     <!-- Last posts -->
@@ -44,7 +43,7 @@ Home
             {% elif stickynote.videostickynote %}
               {% load embed_video_tags %}
                 {% video stickynote.videostickynote.video_content as my_video %}
-                  {% video my_video '95%x95%' %}
+                  {% video my_video %}
               {% endvideo %}
             {% else %}
               {{ stickynote.text_content }}

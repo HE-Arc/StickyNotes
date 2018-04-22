@@ -34,7 +34,7 @@ type_stickynotes = [StickyNoteType.TEXT, StickyNoteType.IMAGE, StickyNoteType.VI
 
 def home(request):
     chalkboards = Chalkboard.objects.filter()
-    stickynotes = StickyNote.objects.filter()[:5]
+    stickynotes = StickyNote.objects.all().order_by('-id')[:5]
     return render(request, 'home.html', {'chalkboards': chalkboards, 'stickynotes': stickynotes})
 
 @login_required
