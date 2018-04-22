@@ -32,9 +32,11 @@ from django_tables2.columns import Column
 # Create your views here.
 type_stickynotes = [StickyNoteType.TEXT, StickyNoteType.IMAGE, StickyNoteType.VIDEO]
 
+@login_required
 def home(request):
-    chalkboards = Chalkboard.objects.filter()
-    stickynotes = StickyNote.objects.all().order_by('-id')[:5]
+    chalkboards = Chalkboard.objects.filter(user_created=request.user)
+    join_chlk = JoinChalkboard.objects.filter(user=request.user).values('chalkboard_id')
+    stickynotes = StickyNote.objects.filter(chalkboard_id__in=join_chlk, is_hidden=False).order_by('-id')[:5]
     return render(request, 'home.html', {'chalkboards': chalkboards, 'stickynotes': stickynotes})
 
 @login_required
